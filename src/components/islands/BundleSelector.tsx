@@ -5,7 +5,7 @@ import { $selectedPackId, $selectedVariantId } from '@/stores/checkout';
 import { useSelection } from '@/components/islands/parts/use-selection';
 import { PriceRow } from '@/components/islands/parts/PriceRow';
 import { VariantPicker } from '@/components/islands/parts/VariantPicker';
-import { projectPack } from '@/lib/shopify/pricing';
+import { packDisplayLabel, projectPack } from '@/lib/shopify/pricing';
 import { formatPrice } from '@/lib/format';
 import type { ProductCommerce } from '@/lib/shopify/types';
 import type { PricePack, ProductErrorCopy } from '@/types/content';
@@ -67,7 +67,7 @@ export function BundleSelector({
   const announcement = useMemo(() => {
     if (cartError) return errors[cartError] ?? errors.generic;
     if (cart?.line && pack.freeUnits > 0 && cart.discountCents === 0) return errors.noDiscount;
-    return `${variant.title}. ${pack.label}. Total: ${formatPrice(cart ? cart.totalCents : projection.priceCents)}.`;
+    return `${variant.title}. ${packDisplayLabel(pack, projection)}. Total: ${formatPrice(cart ? cart.totalCents : projection.priceCents)}.`;
   }, [cartError, cart, pack, variant, projection, errors]);
 
   const giftProgress = Math.min(1, pack.units / giftThresholdUnits);
@@ -108,7 +108,7 @@ export function BundleSelector({
               />
               <span className="peer-checked:border-[6px] peer-checked:border-rust size-5 shrink-0 rounded-full border-2 border-steel-light" aria-hidden="true" />
               <span className="flex-1">
-                <span className="block font-display font-bold text-graphite">{p.label}</span>
+                <span className="block font-display font-bold text-graphite">{packDisplayLabel(p, pProjection)}</span>
                 {p.sublabel && <span className="block text-xs text-steel">{p.sublabel}</span>}
               </span>
               <span className="text-right">
@@ -126,18 +126,20 @@ export function BundleSelector({
         })}
       </div>
 
-      <div>
-        <div className="flex items-center justify-between text-xs font-medium text-steel">
-          <span>{giftLabel}</span>
-          <span className="tabular-nums">{Math.round(giftProgress * 100)}%</span>
+      {bundleOfferActive && (
+        <div>
+          <div className="flex items-center justify-between text-xs font-medium text-steel">
+            <span>{giftLabel}</span>
+            <span className="tabular-nums">{Math.round(giftProgress * 100)}%</span>
+          </div>
+          <div className="mt-1 h-2 rounded-pill bg-graphite/10">
+            <div
+              className="h-full rounded-pill bg-gold transition-[width] duration-300"
+              style={{ width: `${giftProgress * 100}%` }}
+            />
+          </div>
         </div>
-        <div className="mt-1 h-2 rounded-pill bg-graphite/10">
-          <div
-            className="h-full rounded-pill bg-gold transition-[width] duration-300"
-            style={{ width: `${giftProgress * 100}%` }}
-          />
-        </div>
-      </div>
+      )}
 
       <button
         type="button"

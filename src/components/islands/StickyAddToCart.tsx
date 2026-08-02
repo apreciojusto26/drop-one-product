@@ -5,6 +5,7 @@ import { $isLightboxOpen } from '@/stores/ui';
 import { useSelection } from '@/components/islands/parts/use-selection';
 import { PlaceholderShot } from '@/components/islands/parts/PlaceholderShot';
 import { formatPrice } from '@/lib/format';
+import { packDisplayLabel } from '@/lib/shopify/pricing';
 import type { ProductCommerce } from '@/lib/shopify/types';
 import type { PricePack } from '@/types/content';
 import type { ResolvedImage } from '@/types/content';
@@ -33,7 +34,7 @@ export function StickyAddToCart({
 }: StickyAddToCartProps) {
   const [pastSentinel, setPastSentinel] = useState(false);
   const isLightboxOpen = useStore($isLightboxOpen);
-  const { variant, pack, totalCents, cart } = useSelection({ commerce, packs, bundleOfferActive });
+  const { variant, pack, projection, totalCents, cart } = useSelection({ commerce, packs, bundleOfferActive });
   const ctaRef = useRef<HTMLButtonElement | null>(null);
 
   useEffect(() => {
@@ -89,7 +90,7 @@ export function StickyAddToCart({
         <div className="min-w-0 flex-1">
           <p className="truncate text-xs font-semibold text-graphite">{commerce.title}</p>
           <p className="truncate text-xs text-steel">
-            {variant.title} · {pack.label}
+            {variant.title} · {packDisplayLabel(pack, projection)}
           </p>
         </div>
 
