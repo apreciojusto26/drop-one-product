@@ -105,11 +105,45 @@ async function mutate(variantId: string, quantity: number): Promise<void> {
   }
 }
 
-/** location.assign to the hosted checkout. Guarded — no checkout with an empty cart. */
+/**
+ * Kill switch: PUBLIC_CHECKOUT_MODE='shopify' redirects to the legacy hosted
+ * checkout (rollback path, no code revert needed). Anything else (unset
+ * included) routes to the onsite /checkout flow — per spec
+ * (sdd/sumup-shopify-checkout/spec, checkout-handoff domain), confirmed by
+ * user 2026-08-03 as the intended default despite design.md's stale inline
+ * snippet showing the opposite.
+ *
+ * DEPLOYMENT SAFETY: because unset now means SumUp, prod MUST explicitly set
+ * PUBLIC_CHECKOUT_MODE=shopify in Vercel until SUMUP_API_KEY / UPSTASH_* are
+ * actually provisioned (task 1.5) — otherwise checkout breaks for every
+ * visitor the moment this ships, not just gracefully falls back.
+ */
+const CHECKOUT_MODE = import.meta.env.PUBLIC_CHECKOUT_MODE;
+
+/** Guarded — no checkout with an empty cart, either mode. */
 export function checkout(): void {
   const cart = $cart.get();
   if (!cart || !cart.line) return;
-  window.location.assign(cart.checkoutUrl);
+
+  if (CHECKOUT_MODE === 'shopify') {
+    window.location.assign(cart.checkoutUrl);
+    return;
+  }
+
+  window.location.assign('/checkout');
+}
+
+/**
+ * Called by OrderConfirmation once settleCheckout reports the order as
+ * paid — the buyer's cart no longer represents anything purchasable (design
+ * "src/stores/cart.ts — new clearCart() (localStorage + $cart.set(null))
+ * for gracias"). Distinct from pruneStaleLine: this is a normal successful
+ * end-of-flow reset, not a data-integrity guard.
+ */
+export function clearCart(): void {
+  localStorage.removeItem(KEY);
+  $cart.set(null);
+  $cartStatus.set('idle');
 }
 
 /**

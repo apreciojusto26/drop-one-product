@@ -17,6 +17,11 @@ import SiteFooter from '@/components/sections/14-site-footer.astro';
 import StickyBar from '@/components/sections/15-sticky-bar.astro';
 import { product } from '@/data/product';
 
+// SSR is enabled project-wide (astro.config.mjs `output:'server'`) for
+// /checkout + /api/*. This is the one page that MUST stay static-prerendered
+// — no LCP regression, no per-request server function for the landing page.
+export const prerender = true;
+
 const title = `${product.brand} — ${product.tagline}`;
 const description = product.subtagline;
 ---
