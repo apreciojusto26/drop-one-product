@@ -6,10 +6,11 @@ import type { Product } from '@/types/content';
  * Sections/islands MUST read from here — never hardcode strings/prices/images.
  */
 export const product = {
-  brand: 'Cortto',
-  name: 'Cortto — Cizalla de cocina 2 en 1',
-  tagline: 'El corte perfecto, sin tabla.',
-  subtagline: 'Tijera y cuchillo en uno. Cortá directo sobre la olla.',
+  brand: 'Astralux',
+  name: 'Astralux — Proyector de estrellas USB',
+  tagline: 'El cielo estrellado, en tu habitación.',
+  subtagline:
+    'Proyector de estrellas con 24 películas deslizables y luz nocturna: creá una atmósfera espacial mágica con un solo toque.',
 
   commerce: {
     shopifyHandle:
@@ -20,7 +21,7 @@ export const product = {
   },
 
   // Admin's internal option name is "Emitting Color" — NEVER shown to buyers.
-  // The 9 values are slide configurations, not colors.
+  // The 9 values are projection configurations, not colors.
   variantGroupLabel: 'Tipo de proyección',
 
   errors: {
@@ -31,24 +32,24 @@ export const product = {
     generic: 'Algo salió mal. Probá de nuevo.',
   },
 
-  ratingAverage: 4.8,
-  ratingCount: 1243,
+  ratingAverage: 4.9,
+  ratingCount: 128,
   ratingBreakdown: {
-    5: 950,
-    4: 220,
-    3: 50,
-    2: 15,
-    1: 8,
+    5: 120,
+    4: 4,
+    3: 2,
+    2: 1,
+    1: 1,
   },
 
-  badges: ['Envío 24-48h', 'Acero inoxidable', 'Garantía 30 días'],
+  badges: ['Envío 24-48h', 'Pila incluida', 'Garantía 30 días'],
 
   trustTicker: [
     'Envío gratis desde 29€',
     'Pago 100% seguro',
-    '+1.200 clientes satisfechos',
+    '+120 reseñas de 5 estrellas',
     'Garantía de 30 días',
-    'Acero inoxidable de calidad',
+    '24 películas deslizables',
   ],
 
   offer: {
@@ -59,40 +60,41 @@ export const product = {
 
   benefits: [
     {
-      id: 'dos-en-uno',
-      icon: 'knife',
-      title: '2 en 1 real',
-      text: 'Cuchillo y mini tabla de corte separables en una sola pieza.',
+      id: 'escenas',
+      icon: 'sparkle',
+      title: '24 escenas deslizables',
+      text: 'Deslizá entre 24 películas de proyección y pasá de un cielo estrellado a la vía láctea en segundos.',
     },
     {
-      id: 'traba-seguridad',
-      icon: 'lock',
-      title: 'Traba de seguridad',
-      text: 'Bloqueo rojo que evita aperturas accidentales al guardarlo.',
+      id: 'luz-nocturna',
+      icon: 'star',
+      title: 'Luz nocturna estrellada',
+      text: 'Emite una luz suave y relajante con efecto estrellado, ideal para dormir o relajarse en casa.',
     },
     {
-      id: 'se-cuelga',
-      icon: 'hook',
-      title: 'Se cuelga solo',
-      text: 'Agujero integrado para guardarlo colgado y ahorrar espacio.',
+      id: 'un-toque',
+      icon: 'check',
+      title: 'Se enciende con un toque',
+      text: 'Sin enchufe ni apps: tocá y la proyección arranca al instante, con pila botón incluida.',
     },
     {
-      id: 'acero-inox',
+      id: 'abs-resistente',
       icon: 'shield',
-      title: 'Acero inoxidable',
-      text: 'Hoja resistente a la corrosión, corte limpio y duradero.',
+      title: 'ABS resistente',
+      text: 'Material ABS de alta resistencia y 30 cm compactos para cualquier estante, mesita o rincón.',
     },
   ],
 
-  heroPills: ['Acero inoxidable', 'Se separa en 2 piezas', 'Traba de seguridad'],
+  heroPills: ['24 películas deslizables', 'Encendido con toque', 'Pila incluida'],
 
   specs: [
-    { label: 'Longitud abierta', value: '24,5 cm' },
-    { label: 'Hoja', value: '12 cm' },
-    { label: 'Mango', value: '12,5 cm' },
-    { label: 'Material', value: 'Acero inoxidable + ABS' },
-    { label: 'Traba de seguridad', value: 'Sí, incluida' },
-    { label: 'Apto para', value: 'Carne, verduras y frutas' },
+    { label: 'Modelo', value: 'AA1458' },
+    { label: 'Material del cuerpo', value: 'ABS de alta resistencia' },
+    { label: 'Longitud', value: '30 cm' },
+    { label: 'Flujo luminoso', value: '249–2000 lúmenes' },
+    { label: 'Potencia', value: '0–5 W' },
+    { label: 'Alimentación', value: 'Pila botón (incluida)' },
+    { label: 'Activación', value: 'Con toque' },
   ],
 
   packs: [
@@ -122,86 +124,87 @@ export const product = {
     {
       id: 'g1',
       asset: null,
-      alt: '[PLACEHOLDER] Cortto sobre fondo claro, vista frontal completa mostrando cuchillo y tabla unidos',
+      alt: '[PLACEHOLDER] Astralux sobre una mesita de noche apagado, vista 3/4 mostrando su diseño rectangular compacto',
       ratio: '4/5',
       label: 'Vista frontal',
     },
     {
       id: 'g2',
       asset: null,
-      alt: '[PLACEHOLDER] Cortto abierto en ángulo, mostrando la hoja de acero inoxidable y la mini tabla',
+      alt: '[PLACEHOLDER] Proyección de estrellas de Astralux en el techo de una habitación en penumbra',
       ratio: '4/5',
-      label: 'Detalle de hoja',
+      label: 'Proyección estrellada',
     },
     {
       id: 'g3',
       asset: null,
-      alt: '[PLACEHOLDER] Cortto separado en sus dos piezas sobre una mesada de cocina',
+      alt: '[PLACEHOLDER] Detalle del control deslizante de Astralux con las 24 películas de proyección',
       ratio: '4/5',
-      label: 'Piezas separadas',
+      label: 'Películas deslizables',
     },
     {
       id: 'g4',
       asset: null,
-      alt: '[PLACEHOLDER] Primer plano de la traba de seguridad roja de Cortto',
+      alt: '[PLACEHOLDER] Efecto vía láctea de Astralux proyectado sobre una pared del dormitorio',
       ratio: '1/1',
-      label: 'Traba de seguridad',
+      label: 'Efecto vía láctea',
     },
     {
       id: 'g5',
       asset: null,
-      alt: '[PLACEHOLDER] Cortto colgado de un gancho de cocina por su agujero integrado',
+      alt: '[PLACEHOLDER] Astralux en modo luz nocturna junto a la cama de un niño',
       ratio: '4/5',
-      label: 'Se cuelga solo',
+      label: 'Modo luz nocturna',
     },
   ],
 
   steps: [
     {
       step: 1,
-      title: 'Cortá directo sobre la tabla integrada',
-      text: 'Uno de los brazos incluye una mini tabla de corte: apoyá el alimento y cortá con precisión, sin ensuciar otra superficie.',
+      title: 'Deslizá para cambiar la escena',
+      text: 'Las 24 películas deslizantes te dejan alternar entre cielos estrellados, nebulosas y la vía láctea con un simple gesto.',
       media: {
-        asset: 'step-01',
-        alt: 'Cortto cortando una zanahoria sobre su mini tabla integrada y verduras dentro de una olla, mostrando su uso multifuncional en cocina',
+        asset: null,
+        alt: '[PLACEHOLDER] Astralux proyectando un cielo estrellado mientras se desliza la película de proyección',
         ratio: '4/3',
       },
     },
     {
       step: 2,
-      title: 'Separalo en dos piezas cuando lo necesites',
-      text: 'Con un solo movimiento, el cuchillo y la tabla se separan: usá el cuchillo solo, como un cuchillo de fruta tradicional.',
+      title: 'Un toque para encender',
+      text: 'Sin enchufe ni dispositivos inteligentes: tocá la superficie y la proyección arranca al instante, alimentada por pila botón incluida.',
       media: {
-        asset: 'step-02',
-        alt: 'Cortto separado en sus dos piezas: el cuchillo de acero inoxidable y la mini tabla de corte, listos para usarse por separado',
+        asset: null,
+        alt: '[PLACEHOLDER] Mano encendiendo Astralux con un toque en su superficie, mostrando la luz estrellada',
         ratio: '4/3',
       },
     },
     {
       step: 3,
-      title: 'Compacto, preciso y fácil de guardar',
-      text: '24,5 cm abierta, con una hoja de 12 cm y un mango de 12,5 cm: el tamaño justo para cualquier cajón de cocina.',
+      title: 'Ambiente nocturno en cualquier rincón',
+      text: 'Sus 30 cm compactos y la batería por pila lo hacen perfecto para mesitas, estantes, autos o la habitación de los chicos.',
       media: {
-        asset: 'step-03',
-        alt: 'Medidas de Cortto: 24,5 centímetros de longitud abierta, hoja de 12 centímetros y mango de 12,5 centímetros',
+        asset: null,
+        alt: '[PLACEHOLDER] Astralux colocado en un estante proyectando un cielo de estrellas en una habitación oscura',
         ratio: '4/3',
       },
     },
   ],
 
   comparison: [
-    { feature: '2 en 1: cuchillo y tabla en una sola pieza', cortto: true, rival: false },
-    { feature: 'Se separa en dos piezas independientes', cortto: true, rival: false },
-    { feature: 'Traba de seguridad integrada', cortto: true, rival: false },
-    { feature: 'Agujero para colgar', cortto: true, rival: 'Según el modelo' },
-    { feature: 'Espacio que ocupa en el cajón', cortto: 'Mínimo', rival: 'Cuchillo + tabla por separado' },
-    { feature: 'Acero inoxidable', cortto: true, rival: true },
+    { feature: '24 escenas de proyección deslizables', ours: true, rival: 'Fija, sin cambios' },
+    { feature: 'Proyección de estrellas en techo y paredes', ours: true, rival: false },
+    { feature: 'Doble función: proyector y luz nocturna', ours: true, rival: 'Solo luz' },
+    { feature: 'Encendido con toque, sin cables', ours: true, rival: 'Requiere clavija' },
+    { feature: 'Portátil: hogar, auto y dormitorios', ours: true, rival: 'Fija en un lugar' },
+    { feature: 'Pila botón incluida', ours: true, rival: false },
+    { feature: 'Material ABS resistente', ours: true, rival: true },
   ],
 
   guarantee: {
     days: 30,
     title: 'Garantía de 30 días',
-    text: 'Si Cortto no supera tus expectativas, te devolvemos el dinero. Sin vueltas.',
+    text: 'Si Astralux no supera tus expectativas, te devolvemos el dinero. Sin vueltas.',
     points: [
       'Devolución simple dentro de los 30 días',
       'Reembolso completo, sin preguntas',
@@ -215,12 +218,12 @@ export const product = {
   },
 
   ugc: [
-    { asset: null, alt: '[PLACEHOLDER] Cliente usando Cortto para cortar verduras en su cocina', ratio: '9/16' },
-    { asset: null, alt: '[PLACEHOLDER] Cortto sobre una tabla de madera junto a vegetales recién cortados', ratio: '9/16' },
-    { asset: null, alt: '[PLACEHOLDER] Detalle de Cortto separado en dos piezas sobre una mesada', ratio: '9/16' },
-    { asset: null, alt: '[PLACEHOLDER] Cliente sosteniendo Cortto mostrando su tamaño compacto', ratio: '9/16' },
-    { asset: null, alt: '[PLACEHOLDER] Cortto colgado en un organizador de cocina', ratio: '9/16' },
-    { asset: null, alt: '[PLACEHOLDER] Primer plano de la hoja de acero inoxidable de Cortto', ratio: '9/16' },
+    { asset: null, alt: '[PLACEHOLDER] Niño mirando el cielo de estrellas de Astralux proyectado en el techo de su cuarto', ratio: '9/16' },
+    { asset: null, alt: '[PLACEHOLDER] Astralux en una mesita de noche en modo luz nocturna junto a la cama', ratio: '9/16' },
+    { asset: null, alt: '[PLACEHOLDER] Efecto vía láctea de Astralux sobre una pared del salón', ratio: '9/16' },
+    { asset: null, alt: '[PLACEHOLDER] Astralux colocado en un coche proyectando estrellas en el techo interior', ratio: '9/16' },
+    { asset: null, alt: '[PLACEHOLDER] Mano deslizando la película de proyección de Astralux', ratio: '9/16' },
+    { asset: null, alt: '[PLACEHOLDER] Astralux sobre una estantería emitiendo su luz estrellada en penumbra', ratio: '9/16' },
   ],
 
   cta: {

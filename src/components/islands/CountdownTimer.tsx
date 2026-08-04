@@ -8,7 +8,7 @@ interface CountdownTimerProps {
   tone?: 'bar' | 'box';
 }
 
-const STORAGE_KEY = 'cortto:offerEndsAt';
+const STORAGE_KEY = 'astralux:offerEndsAt';
 
 function readOrSeedEndsAt(durationMinutes: number): number {
   try {

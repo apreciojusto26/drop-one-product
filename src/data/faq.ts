@@ -2,33 +2,39 @@ import type { FaqItem } from '@/types/content';
 
 export const faq: FaqItem[] = [
   {
-    id: 'material',
-    question: '¿De qué material está hecho Cortto?',
+    id: 'que-es',
+    question: '¿Qué es Astralux y cómo funciona?',
     answer:
-      'La hoja y la mini tabla integrada son de acero inoxidable, y el mango es de ABS resistente. El conjunto mide 24,5 cm abierto, con una hoja de 12 cm y un mango de 12,5 cm.',
+      'Es un mini proyector de estrellas USB con 24 películas de proyección deslizantes. Funciona con pila botón incluida y se activa con un toque: proyecta estrellas, nebulosas y la vía láctea en el techo o las paredes de tu habitación.',
   },
   {
-    id: 'cuidado',
-    question: '¿Cómo se limpia y cuida?',
+    id: 'pilas',
+    question: '¿Cómo se alimenta? ¿Incluye las pilas?',
     answer:
-      'Separá las dos piezas usando la traba de seguridad y lavalas con agua y jabón. Te recomendamos secarlo bien antes de guardarlo para conservar el filo por más tiempo.',
+      'Funciona con una pila botón que viene incluida, y también incluye la lámpara. No requiere enchufe ni cable: es totalmente portátil, ideal para usar en casa, en el auto o donde quieras.',
   },
   {
-    id: 'envio',
-    question: '¿Cuánto tarda el envío?',
+    id: 'encendido',
+    question: '¿Cómo se enciende y se cambia la escena?',
     answer:
-      'El envío estándar tarda entre 24 y 48 horas hábiles. Es gratuito en pedidos superiores a 29€.',
+      'Se enciende con un simple toque en su superficie. Para cambiar la proyección, deslizá las 24 películas incluidas y elegí entre distintos cielos estrellados, nebulosas y la vía láctea.',
+  },
+  {
+    id: 'uso-oscuro',
+    question: '¿En qué ambiente se ve mejor el efecto?',
+    answer:
+      'El efecto estrellado es más fuerte en habitaciones completamente oscuras. Con algo de luz ambiente también se percibe, pero para disfrutar la máxima atmósfera espacial te recomendamos proyectar en penumbra.',
+  },
+  {
+    id: 'luz-nocturna',
+    question: '¿Sirve como luz de noche?',
+    answer:
+      'Sí. Además de proyectar estrellas, funciona como luz nocturna con una emisión suave y relajante, perfecta para ayudar a los niños a dormir o para relajarse en casa.',
   },
   {
     id: 'garantia',
     question: '¿Qué garantía tiene?',
     answer:
-      'Cortto tiene 30 días de garantía de devolución. Si no cumple tus expectativas, te devolvemos el importe sin necesidad de justificar el motivo.',
-  },
-  {
-    id: 'uso-alimentos',
-    question: '¿Sirve para cortar carne, verduras y frutas por igual?',
-    answer:
-      'Sí. Su hoja de acero inoxidable está pensada para uso multipropósito: carne, verduras y frutas, tanto sobre su mini tabla integrada como separado, a modo de cuchillo tradicional.',
+      'Astralux tiene 30 días de garantía de devolución. Si no cumple tus expectativas, te devolvemos el importe sin necesidad de justificar el motivo.',
   },
 ];

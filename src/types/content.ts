@@ -84,7 +84,7 @@ export interface HowToStep {
 
 export interface ComparisonRow {
   feature: string;
-  cortto: boolean | string;
+  ours: boolean | string;
   rival: boolean | string;
 }
 

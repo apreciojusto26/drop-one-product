@@ -12,7 +12,7 @@ const rowCount = rows.length;
 <section class="bg-bone-dim py-12 md:py-16">
   <Container>
     <p class="text-eyebrow font-bold uppercase text-rust">Comparativa</p>
-    <h2 class="mt-1 text-display md:text-4xl">{product.brand} vs. cuchillo tradicional</h2>
+    <h2 class="mt-1 text-display md:text-4xl">{product.brand} vs. lámparas decorativas comunes</h2>
 
     <div class="mt-6 grid grid-cols-[1.3fr_1fr_1fr] overflow-hidden rounded-card text-sm">
       <div class="bg-surface p-3 font-semibold text-graphite">Característica</div>
@@ -31,12 +31,12 @@ const rowCount = rows.length;
                   isLast && 'rounded-b-card',
                 ]}
               >
-                {typeof row.cortto === 'boolean' ? (
-                  <svg viewBox={row.cortto ? check.viewBox : cross.viewBox} class="mx-auto size-5 text-rust" aria-hidden="true">
-                    <path fill="currentColor" d={row.cortto ? check.path : cross.path} />
+                {typeof row.ours === 'boolean' ? (
+                  <svg viewBox={row.ours ? check.viewBox : cross.viewBox} class="mx-auto size-5 text-rust" aria-hidden="true">
+                    <path fill="currentColor" d={row.ours ? check.path : cross.path} />
                   </svg>
                 ) : (
-                  <span class="text-xs">{row.cortto}</span>
+                  <span class="text-xs">{row.ours}</span>
                 )}
               </div>
               <div class="border-t border-graphite/10 bg-bone-dim p-3 text-center text-steel">
