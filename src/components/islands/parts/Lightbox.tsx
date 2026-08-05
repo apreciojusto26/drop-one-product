@@ -115,7 +115,7 @@ export function Lightbox({ images, index, onClose, onNavigate, triggerRef }: Lig
         </svg>
       </button>
 
-      <div className="relative max-h-[80vh] w-full max-w-lg overflow-hidden rounded-card motion-safe:transition-transform">
+      <div className="relative max-h-[80vh] w-full overflow-hidden rounded-card motion-safe:transition-transform md:max-w-2xl">
         {image.placeholder ? (
           <PlaceholderShot ratio={image.ratio} alt={image.alt} tone="graphite" rounded="rounded-card" />
         ) : (

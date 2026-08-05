@@ -11,7 +11,7 @@ const ratingLabel = product.ratingAverage.toFixed(1).replace('.', ',');
 const ratingCountLabel = new Intl.NumberFormat('es-ES').format(product.ratingCount);
 ---
 
-<section id="buy" class="scroll-mt-14 px-5 py-8">
+<section id="buy" class="scroll-mt-14 mx-auto w-full max-w-[28rem] px-5 md:max-w-[42rem] lg:max-w-[64rem] py-8">
   <div class="rounded-card bg-surface p-5 shadow-lift">
     <div class="mb-3 flex items-center gap-2">
       <div class="flex -space-x-2">
@@ -62,7 +62,7 @@ const ratingCountLabel = new Intl.NumberFormat('es-ES').format(product.ratingCou
       </p>
     </div>
 
-    <div class="mt-5 grid grid-cols-2 gap-3">
+    <div class="mt-5 grid grid-cols-2 gap-3 lg:grid-cols-4">
       {
         product.benefits.map((benefit) => (
           <div class="rounded-tile bg-bone p-3">

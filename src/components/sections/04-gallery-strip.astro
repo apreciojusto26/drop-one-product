@@ -14,6 +14,6 @@ const resolvedImages =
     : await resolveMediaList(product.gallery, 'gallery');
 ---
 
-<section class="-mx-5 py-8">
+<section class="mx-auto w-full max-w-[28rem] px-5 md:max-w-[42rem] lg:max-w-[40rem] py-8">
   <ProductGallery client:visible images={resolvedImages} />
 </section>

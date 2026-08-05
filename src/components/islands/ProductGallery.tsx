@@ -26,7 +26,7 @@ export function ProductGallery({ images, initialIndex = 0 }: ProductGalleryProps
         type="button"
         onClick={() => $lightboxIndex.set(activeIndex)}
         aria-label={`Ampliar imagen: ${active.alt}`}
-        className="block w-full overflow-hidden rounded-card motion-safe:transition-transform"
+        className="mx-auto block w-full max-w-[28rem] overflow-hidden rounded-card motion-safe:transition-transform md:max-w-[40rem]"
       >
         {active.placeholder ? (
           <PlaceholderShot ratio={active.ratio} alt={active.alt} rounded="rounded-card" className="w-full" />

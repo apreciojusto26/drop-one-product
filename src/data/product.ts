@@ -6,8 +6,8 @@ import type { Product } from '@/types/content';
  * Sections/islands MUST read from here — never hardcode strings/prices/images.
  */
 export const product = {
-  brand: 'Astralux',
-  name: 'Astralux — Proyector de estrellas USB',
+  brand: 'AstraVibe',
+  name: 'AstraVibe — Proyector de estrellas USB',
   tagline: 'El cielo estrellado, en tu habitación.',
   subtagline:
     'Proyector de estrellas con 24 películas deslizables y luz nocturna: creá una atmósfera espacial mágica con un solo toque.',
@@ -123,36 +123,36 @@ export const product = {
   gallery: [
     {
       id: 'g1',
-      asset: null,
-      alt: '[PLACEHOLDER] Astralux sobre una mesita de noche apagado, vista 3/4 mostrando su diseño rectangular compacto',
+      asset: 'gallery-01',
+      alt: 'AstraVibe encendido proyectando estrellas junto al producto, toma nítida en penumbra',
       ratio: '4/5',
       label: 'Vista frontal',
     },
     {
       id: 'g2',
-      asset: null,
-      alt: '[PLACEHOLDER] Proyección de estrellas de Astralux en el techo de una habitación en penumbra',
+      asset: 'gallery-02',
+      alt: 'Cielo de estrellas proyectado por AstraVibe en el techo de una habitación oscura',
       ratio: '4/5',
       label: 'Proyección estrellada',
     },
     {
       id: 'g3',
-      asset: null,
-      alt: '[PLACEHOLDER] Detalle del control deslizante de Astralux con las 24 películas de proyección',
+      asset: 'gallery-03',
+      alt: 'Proyección de AstraVibe en acción con estrellas nítidas sobre una superficie',
       ratio: '4/5',
-      label: 'Películas deslizables',
+      label: 'Proyección en acción',
     },
     {
       id: 'g4',
-      asset: null,
-      alt: '[PLACEHOLDER] Efecto vía láctea de Astralux proyectado sobre una pared del dormitorio',
+      asset: 'gallery-04',
+      alt: 'Efecto vía láctea azulada proyectado por AstraVibe en penumbra',
       ratio: '1/1',
       label: 'Efecto vía láctea',
     },
     {
       id: 'g5',
-      asset: null,
-      alt: '[PLACEHOLDER] Astralux en modo luz nocturna junto a la cama de un niño',
+      asset: 'gallery-05',
+      alt: 'AstraVibe en modo luz nocturna con resplandor cálido junto a la cama',
       ratio: '4/5',
       label: 'Modo luz nocturna',
     },
@@ -164,8 +164,8 @@ export const product = {
       title: 'Deslizá para cambiar la escena',
       text: 'Las 24 películas deslizantes te dejan alternar entre cielos estrellados, nebulosas y la vía láctea con un simple gesto.',
       media: {
-        asset: null,
-        alt: '[PLACEHOLDER] Astralux proyectando un cielo estrellado mientras se desliza la película de proyección',
+        asset: 'step-01',
+        alt: 'Cielo colorido proyectado por AstraVibe con efecto vía láctea y nebulosa',
         ratio: '4/3',
       },
     },
@@ -174,8 +174,10 @@ export const product = {
       title: 'Un toque para encender',
       text: 'Sin enchufe ni dispositivos inteligentes: tocá la superficie y la proyección arranca al instante, alimentada por pila botón incluida.',
       media: {
-        asset: null,
-        alt: '[PLACEHOLDER] Mano encendiendo Astralux con un toque en su superficie, mostrando la luz estrellada',
+        asset: 'video-01',
+        kind: 'video',
+        poster: 'video-01-poster',
+        alt: 'AstraVibe encendiéndose con un toque: la proyección estrellada aparece al instante',
         ratio: '4/3',
       },
     },
@@ -184,8 +186,8 @@ export const product = {
       title: 'Ambiente nocturno en cualquier rincón',
       text: 'Sus 30 cm compactos y la batería por pila lo hacen perfecto para mesitas, estantes, autos o la habitación de los chicos.',
       media: {
-        asset: null,
-        alt: '[PLACEHOLDER] Astralux colocado en un estante proyectando un cielo de estrellas en una habitación oscura',
+        asset: 'gallery-05',
+        alt: 'AstraVibe en modo luz nocturna ambientando un rincón oscuro',
         ratio: '4/3',
       },
     },
@@ -204,7 +206,7 @@ export const product = {
   guarantee: {
     days: 30,
     title: 'Garantía de 30 días',
-    text: 'Si Astralux no supera tus expectativas, te devolvemos el dinero. Sin vueltas.',
+    text: 'Si AstraVibe no supera tus expectativas, te devolvemos el dinero. Sin vueltas.',
     points: [
       'Devolución simple dentro de los 30 días',
       'Reembolso completo, sin preguntas',
@@ -218,12 +220,12 @@ export const product = {
   },
 
   ugc: [
-    { asset: null, alt: '[PLACEHOLDER] Niño mirando el cielo de estrellas de Astralux proyectado en el techo de su cuarto', ratio: '9/16' },
-    { asset: null, alt: '[PLACEHOLDER] Astralux en una mesita de noche en modo luz nocturna junto a la cama', ratio: '9/16' },
-    { asset: null, alt: '[PLACEHOLDER] Efecto vía láctea de Astralux sobre una pared del salón', ratio: '9/16' },
-    { asset: null, alt: '[PLACEHOLDER] Astralux colocado en un coche proyectando estrellas en el techo interior', ratio: '9/16' },
-    { asset: null, alt: '[PLACEHOLDER] Mano deslizando la película de proyección de Astralux', ratio: '9/16' },
-    { asset: null, alt: '[PLACEHOLDER] Astralux sobre una estantería emitiendo su luz estrellada en penumbra', ratio: '9/16' },
+    { asset: 'ugc-01', alt: 'Efecto vía láctea de AstraVibe sobre una superficie en penumbra', ratio: '9/16' },
+    { asset: 'ugc-02', alt: 'AstraVibe como luz nocturna cálida junto a la cama', ratio: '9/16' },
+    { asset: 'video-03', kind: 'video', alt: 'Proyección de la vía láctea de AstraVibe en movimiento', ratio: '9/16' },
+    { asset: null, alt: '[PLACEHOLDER] AstraVibe colocado en un coche proyectando estrellas en el techo interior', ratio: '9/16' },
+    { asset: 'video-02', kind: 'video', alt: 'Proyección de estrellas de AstraVibe, escena estable en movimiento', ratio: '9/16' },
+    { asset: 'ugc-03', alt: 'Cielo de estrellas de AstraVibe en una habitación oscura', ratio: '9/16' },
   ],
 
   cta: {

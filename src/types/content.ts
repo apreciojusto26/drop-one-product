@@ -17,12 +17,14 @@ export type IconName =
   | 'gift'
   | 'clock';
 
-/** Any image slot. asset === null => render PlaceholderShot. */
+/** Any image/video slot. asset === null => render PlaceholderShot. */
 export interface MediaRef {
-  asset: string | null; // key into src/data/images.ts
+  asset: string | null; // key into src/data/images.ts (image) OR src/data/videos.ts (video)
   alt: string; // real alt, or '[PLACEHOLDER] <desc>' when asset === null
   ratio: AspectRatio;
   label?: string; // text drawn inside the placeholder box
+  kind?: 'image' | 'video'; // default 'image'
+  poster?: string; // video poster frame asset key (video only)
 }
 
 export interface GalleryImage extends MediaRef {

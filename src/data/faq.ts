@@ -3,7 +3,7 @@ import type { FaqItem } from '@/types/content';
 export const faq: FaqItem[] = [
   {
     id: 'que-es',
-    question: '¿Qué es Astralux y cómo funciona?',
+    question: '¿Qué es AstraVibe y cómo funciona?',
     answer:
       'Es un mini proyector de estrellas USB con 24 películas de proyección deslizantes. Funciona con pila botón incluida y se activa con un toque: proyecta estrellas, nebulosas y la vía láctea en el techo o las paredes de tu habitación.',
   },
@@ -35,6 +35,6 @@ export const faq: FaqItem[] = [
     id: 'garantia',
     question: '¿Qué garantía tiene?',
     answer:
-      'Astralux tiene 30 días de garantía de devolución. Si no cumple tus expectativas, te devolvemos el importe sin necesidad de justificar el motivo.',
+      'AstraVibe tiene 30 días de garantía de devolución. Si no cumple tus expectativas, te devolvemos el importe sin necesidad de justificar el motivo.',
   },
 ];

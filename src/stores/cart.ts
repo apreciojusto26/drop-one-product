@@ -5,7 +5,7 @@ import { product } from '@/data/product';
 import { $selectedPackId, $selectedVariantId } from '@/stores/checkout';
 import type { PricePack } from '@/types/content';
 
-const KEY = 'astralux:cartId';
+const KEY = 'astravibe:cartId';
 const DEBOUNCE_MS = 400;
 
 export const $cart = atom<CartSnapshot | null>(null);

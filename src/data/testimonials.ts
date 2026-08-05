@@ -1,7 +1,7 @@
 import type { Testimonial } from '@/types/content';
 
 /**
- * Real customer reviews for Astralux (star projector), lightly polished from
+ * Real customer reviews for AstraVibe (star projector), lightly polished from
  * the AliExpress listing. Covered by the footer disclaimer ("Sitio de demostración...").
  */
 export const testimonials: Testimonial[] = [

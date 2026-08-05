@@ -1,5 +1,4 @@
 ---
-import Container from '@/components/ui/Container.astro';
 import PlaceholderShot from '@/components/ui/PlaceholderShot.astro';
 import { testimonials } from '@/data/testimonials';
 
@@ -9,7 +8,7 @@ const featured = testimonials.find((t) => t.variant === 'quote');
 {
   featured && (
     <section class="py-12 text-center md:py-16">
-      <Container class="max-w-[36rem]">
+      <div class="mx-auto w-full max-w-[36rem] px-5 lg:max-w-[42rem]">
         <p class="font-display text-6xl text-rust/20" aria-hidden="true">
           &rdquo;
         </p>
@@ -34,7 +33,7 @@ const featured = testimonials.find((t) => t.variant === 'quote');
             )}
           </div>
         </div>
-      </Container>
+      </div>
     </section>
   )
 }

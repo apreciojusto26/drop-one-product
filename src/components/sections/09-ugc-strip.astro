@@ -7,7 +7,7 @@ import { product } from '@/data/product';
   <div class="flex gap-3 overflow-x-auto px-5 [scrollbar-width:none] snap-x">
     {
       product.ugc.map((item, i) => (
-        <div class="w-[42%] max-w-[11rem] shrink-0 snap-start">
+        <div class="w-[42%] max-w-[11rem] shrink-0 snap-start lg:max-w-[14rem]">
           <Media media={item} rounded="rounded-tile" class="aspect-[9/16] w-full" loading={i < 2 ? 'eager' : 'lazy'} />
         </div>
       ))
