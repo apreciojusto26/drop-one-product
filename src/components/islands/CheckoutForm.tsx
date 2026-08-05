@@ -120,12 +120,27 @@ export function CheckoutForm({ commerce }: CheckoutFormProps) {
       });
 
       if (!response.ok) {
-        const body = (await response.json().catch(() => null)) as { error?: string } | null;
-        setErrorMessage(
-          body?.error === 'empty_cart'
-            ? 'Tu carrito está vacío. Volvé a la tienda para añadir productos.'
-            : 'No pudimos iniciar el pago. Revisá tus datos e intentá de nuevo.',
-        );
+        const body = (await response.json().catch(() => null)) as { error?: string; errors?: Partial<Record<CheckoutFormField, string>> } | null;
+        if (body?.error === 'validation') {
+          // Client and server share validateCheckoutForm, so reaching here
+          // means a stale client bundle or a malformed body — surface the
+          // server's field errors so the buyer isn't told to "review data"
+          // that the server already rejected with different rules.
+          const serverField = body.errors && Object.keys(body.errors)[0];
+          setErrorMessage(
+            serverField
+              ? 'No pudimos validar uno de los campos. Revisá el formulario e intentá de nuevo.'
+              : 'No pudimos validar los datos enviados. Revisá el formulario e intentá de nuevo.',
+          );
+        } else if (body?.error === 'empty_cart') {
+          setErrorMessage('Tu carrito está vacío. Volvé a la tienda para añadir productos.');
+        } else if (body?.error === 'bad_request') {
+          setErrorMessage('El pedido enviado no es válido. Recargá la página e intentá de nuevo.');
+        } else {
+          // server_error (500) — infrastructure (SumUp/Upstash env, network),
+          // NOT the buyer's data. Don't blame the form.
+          setErrorMessage('No pudimos iniciar el pago por un problema del servidor. Intentá de nuevo en unos minutos.');
+        }
         setPhase('form');
         return;
       }
