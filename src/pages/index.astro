@@ -15,6 +15,8 @@ import Guarantee from '@/components/sections/12-guarantee.astro';
 import RealResults from '@/components/sections/13-real-results.astro';
 import SiteFooter from '@/components/sections/14-site-footer.astro';
 import StickyBar from '@/components/sections/15-sticky-bar.astro';
+import { CartDrawer } from '@/components/islands/CartDrawer';
+import { getProductCommerce } from '@/lib/shopify/catalog';
 import { product } from '@/data/product';
 
 // SSR is enabled project-wide (astro.config.mjs `output:'server'`) for
@@ -24,6 +26,10 @@ export const prerender = true;
 
 const title = `${product.brand} — ${product.tagline}`;
 const description = product.subtagline;
+
+// Memoized in lib/shopify/catalog.ts — no extra network call even though
+// 05-buy-box.astro and 15-sticky-bar.astro also await this.
+const commerce = await getProductCommerce();
 ---
 
 <Base title={title} description={description}>
@@ -42,4 +48,5 @@ const description = product.subtagline;
   <RealResults />
   <SiteFooter />
   <StickyBar />
+  <CartDrawer client:load commerce={commerce} />
 </Base>

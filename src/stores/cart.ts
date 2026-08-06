@@ -96,7 +96,16 @@ async function mutate(variantId: string, quantity: number): Promise<void> {
       snapshot = await cartLinesUpdate(current.id, current.line.id, variantId, quantity);
     }
 
-    $cart.set(snapshot);
+    // An empty cart (line removed via quantity 0) must be reset to null, NOT
+    // kept as a snapshot with totalCents 0 — consumers (use-selection,
+    // PriceRow, drawer) treat `cart !== null` as "authoritative price" and
+    // would render "0,00 €" + the compareAt strike (reported bug).
+    if (!snapshot.line) {
+      localStorage.removeItem(KEY);
+      $cart.set(null);
+    } else {
+      $cart.set(snapshot);
+    }
     $cartStatus.set('idle');
   } catch (err) {
     $cartStatus.set('error');
@@ -174,8 +183,9 @@ async function restore(): Promise<void> {
   $cartStatus.set('restoring');
   try {
     const snapshot = await cartGet(id);
-    if (!snapshot) {
-      // Expired or already checked out.
+    if (!snapshot || !snapshot.line) {
+      // Expired, already checked out, or cart line removed (empty cart) —
+      // reset rather than rehydrate a snapshot with totalCents 0.
       localStorage.removeItem(KEY);
       $cartStatus.set('idle');
       return;

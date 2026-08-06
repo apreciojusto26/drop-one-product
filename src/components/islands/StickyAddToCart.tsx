@@ -1,6 +1,6 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useStore } from '@nanostores/react';
-import { checkout } from '@/stores/cart';
+import { $cartStatus, checkout, syncCartLine } from '@/stores/cart';
 import { $isLightboxOpen } from '@/stores/ui';
 import { useSelection } from '@/components/islands/parts/use-selection';
 import { PlaceholderShot } from '@/components/islands/parts/PlaceholderShot';
@@ -15,9 +15,10 @@ interface StickyAddToCartProps {
   packs: PricePack[];
   bundleOfferActive: boolean;
   ctaLabel: string;
+  pendingLabel: string;
+  soldOutLabel: string;
   checkoutLabel: string;
   thumb: ResolvedImage | null;
-  anchorId: string;
   /** R4: sentinel is the END of Hero (#hero-end), NOT #buybox-end. */
   sentinelId: string;
 }
@@ -27,15 +28,17 @@ export function StickyAddToCart({
   packs,
   bundleOfferActive,
   ctaLabel,
+  pendingLabel,
+  soldOutLabel,
   checkoutLabel,
   thumb,
-  anchorId,
   sentinelId,
 }: StickyAddToCartProps) {
   const [pastSentinel, setPastSentinel] = useState(false);
+  const [dismissed, setDismissed] = useState(false);
   const isLightboxOpen = useStore($isLightboxOpen);
+  const cartStatus = useStore($cartStatus);
   const { variant, pack, projection, totalCents, cart } = useSelection({ commerce, packs, bundleOfferActive });
-  const ctaRef = useRef<HTMLButtonElement | null>(null);
 
   useEffect(() => {
     const sentinel = document.getElementById(sentinelId);
@@ -54,18 +57,23 @@ export function StickyAddToCart({
     return () => observer.disconnect();
   }, [sentinelId]);
 
-  const visible = pastSentinel && !isLightboxOpen;
-  const hasCartLine = !!cart?.line;
+  const visible = pastSentinel && !isLightboxOpen && !dismissed;
+  const isPending = cartStatus === 'creating' || cartStatus === 'updating' || cartStatus === 'restoring';
+  const soldOut = !variant.availableForSale;
+  // Mirror BundleSelector's decision logic so the sticky bar and buy box can
+  // never disagree: checkout only when the live cart line matches the current
+  // selection; otherwise add-to-cart (syncCartLine handles create/add/update).
+  const inSync = !!cart?.line && cart.line.variantId === variant.id && cart.line.quantity === projection.totalUnits;
 
   const handleClick = () => {
-    if (hasCartLine) {
+    if (cart?.line && inSync) {
       checkout();
       return;
     }
-    const anchor = document.getElementById(anchorId);
-    anchor?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    ctaRef.current?.focus({ preventScroll: true });
+    void syncCartLine(variant.id, projection.totalUnits);
   };
+
+  const ctaText = soldOut ? soldOutLabel : isPending ? pendingLabel : cart?.line && inSync ? checkoutLabel : ctaLabel;
 
   return (
     <div
@@ -95,14 +103,34 @@ export function StickyAddToCart({
         </div>
 
         <button
-          ref={ctaRef}
           type="button"
           onClick={handleClick}
+          disabled={soldOut || isPending}
           tabIndex={visible ? 0 : -1}
-          className="flex h-11 shrink-0 items-center justify-center gap-2 rounded-pill bg-rust px-4 font-display text-sm font-bold tracking-wide text-white shadow-lift transition active:scale-[.99] hover:bg-rust-dark"
+          aria-busy={isPending}
+          className="flex h-11 shrink-0 items-center justify-center gap-2 rounded-pill bg-rust px-4 font-display text-sm font-bold tracking-wide text-white shadow-lift transition active:scale-[.99] hover:bg-rust-dark disabled:cursor-not-allowed disabled:opacity-60"
         >
           <span className="tabular-nums">{formatPrice(totalCents)}</span>
-          <span>{hasCartLine ? checkoutLabel : ctaLabel}</span>
+          <span>{ctaText}</span>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => setDismissed(true)}
+          tabIndex={visible ? 0 : -1}
+          aria-label="Cerrar"
+          className="flex size-9 shrink-0 items-center justify-center rounded-tile text-steel transition hover:bg-bone-dim hover:text-graphite"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="size-5"
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
         </button>
       </div>
     </div>

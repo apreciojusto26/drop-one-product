@@ -50,4 +50,17 @@
   body { @apply bg-bone text-graphite font-sans antialiased overflow-x-hidden; }
   h1,h2,h3 { @apply font-display font-extrabold; }
   :focus-visible { @apply outline-2 outline-offset-2 outline-graphite; }
+
+  /* Cursor pointer en todo lo clickeable. :disabled excluido — esos ya usan
+     cursor-not-allowed en sus clases. */
+  button:not(:disabled),
+  [role="button"]:not(:disabled),
+  a[href],
+  summary,
+  select,
+  label[for],
+  input[type="checkbox"],
+  input[type="radio"] {
+    cursor: pointer;
+  }
 }

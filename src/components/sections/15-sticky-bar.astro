@@ -18,8 +18,9 @@ const thumb = firstGalleryImage ? await resolveMedia(firstGalleryImage, 'sticky-
   packs={[...product.packs]}
   bundleOfferActive={product.commerce.bundleOfferActive}
   ctaLabel={product.cta.sticky}
+  pendingLabel={product.cta.pending}
+  soldOutLabel={product.cta.soldOut}
   checkoutLabel={product.cta.checkout}
   thumb={thumb}
-  anchorId="buy"
   sentinelId="hero-end"
 />
