@@ -12,7 +12,7 @@ export const testimonials: Testimonial[] = [
     rating: 5,
     date: '2026-05-22',
     title: 'La atmósfera es muy fuerte',
-    body: 'Estoy muy satisfecho. Solo cuando la habitación está completamente oscura se logra el efecto completo, y la atmósfera que crea es muy fuerte. Los niños duermen mucho mejor.',
+    body: 'Estoy muy satisfecha. Solo cuando la habitación está completamente oscura se logra el efecto completo, y la atmósfera que crea es muy fuerte. Los niños duermen mucho mejor.',
     verified: true,
     variant: 'quote',
   },
