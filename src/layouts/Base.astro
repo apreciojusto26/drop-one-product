@@ -42,6 +42,9 @@ const clarityId = import.meta.env.PROD ? getSecret('PUBLIC_CLARITY_PROJECT_ID') 
           function gtag() {
             dataLayer.push(arguments);
           }
+          // define:vars wraps this script in an IIFE, so `gtag` is scoped to
+          // it — exposed explicitly so lib/analytics.ts can reach it.
+          window.gtag = gtag;
           gtag('js', new Date());
           gtag('config', gaId);
         </script>
