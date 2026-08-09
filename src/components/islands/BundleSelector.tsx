@@ -83,7 +83,7 @@ export function BundleSelector({
         label={variantGroupLabel}
       />
 
-      <div role="radiogroup" aria-label="Elegí tu pack" className="space-y-3">
+      <div role="radiogroup" aria-label="Elige tu pack" className="space-y-3">
         {packs.map((p) => {
           const checked = p.id === pack.id;
           const pProjection = projectPack(variant, p, bundleOfferActive);
