@@ -217,7 +217,7 @@ export function CheckoutForm({ commerce }: CheckoutFormProps) {
     return (
       <div className="rounded-card bg-surface p-5 text-center shadow-lift">
         <p className="text-graphite">Tu carrito está vacío.</p>
-        <a href="/" className="mt-3 inline-block font-semibold text-rust underline">
+        <a href="/" className="mt-3 inline-block font-semibold text-grape underline">
           Volver a la tienda
         </a>
       </div>
@@ -237,7 +237,7 @@ export function CheckoutForm({ commerce }: CheckoutFormProps) {
       </div>
 
       {unsupportedCurrency ? (
-        <p className="rounded-tile bg-rust-tint p-3 text-sm text-rust" role="alert">
+        <p className="rounded-tile bg-grape-tint p-3 text-sm text-grape" role="alert">
           El pago con tarjeta no está disponible para esta moneda en este momento.
         </p>
       ) : phase === 'form' || phase === 'creating-session' ? (
@@ -317,7 +317,7 @@ export function CheckoutForm({ commerce }: CheckoutFormProps) {
           </fieldset>
 
           {errorMessage && (
-            <p className="rounded-tile bg-rust-tint p-3 text-sm text-rust" role="alert">
+            <p className="rounded-tile bg-grape-tint p-3 text-sm text-grape" role="alert">
               {errorMessage}
             </p>
           )}
@@ -325,7 +325,7 @@ export function CheckoutForm({ commerce }: CheckoutFormProps) {
           <button
             type="submit"
             disabled={phase === 'creating-session'}
-            className="flex h-14 w-full items-center justify-center rounded-pill bg-rust px-6 font-display text-base font-bold tracking-wide text-white shadow-lift transition active:scale-[.99] hover:bg-rust-dark disabled:cursor-not-allowed disabled:opacity-60"
+            className="flex h-14 w-full items-center justify-center rounded-pill bg-grape px-6 font-display text-base font-bold tracking-wide text-white shadow-lift transition active:scale-[.99] hover:bg-grape-dark disabled:cursor-not-allowed disabled:opacity-60"
           >
             {phase === 'creating-session' ? 'Preparando el pago…' : 'Continuar al pago'}
           </button>
@@ -333,7 +333,7 @@ export function CheckoutForm({ commerce }: CheckoutFormProps) {
       ) : (
         <div className="space-y-3">
           {errorMessage && (
-            <p className="rounded-tile bg-rust-tint p-3 text-sm text-rust" role="alert">
+            <p className="rounded-tile bg-grape-tint p-3 text-sm text-grape" role="alert">
               {errorMessage}
             </p>
           )}
@@ -375,9 +375,9 @@ function Field({ label, value, onChange, type = 'text', error }: FieldProps) {
         value={value}
         onChange={(e) => onChange(e.target.value)}
         aria-invalid={!!error}
-        className="h-11 w-full rounded-tile border-2 border-graphite/10 bg-white px-3 text-graphite outline-none focus:border-rust"
+        className="h-11 w-full rounded-tile border-2 border-graphite/10 bg-white px-3 text-graphite outline-none focus:border-grape"
       />
-      {error && <span className="mt-1 block text-xs text-rust">{error}</span>}
+      {error && <span className="mt-1 block text-xs text-grape">{error}</span>}
     </label>
   );
 }

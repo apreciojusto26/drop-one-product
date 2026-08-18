@@ -24,14 +24,16 @@ export function PriceRow({ projection, cart }: PriceRowProps) {
   const showSavingsPill = cart ? cart.discountCents > 0 : projection.savingsCents > 0;
   const savingsCents = cart ? cart.discountCents : projection.savingsCents;
 
+  const hasContent = compareAtCents > totalCents || (showSavingsPill && savingsCents > 0);
+  if (!hasContent) return null;
+
   return (
     <div className="flex flex-wrap items-baseline gap-2">
-      <span className="font-display text-3xl font-black tabular-nums text-graphite">{formatPrice(totalCents)}</span>
       {compareAtCents > totalCents && (
         <span className="text-sm text-steel line-through tabular-nums">{formatPrice(compareAtCents)}</span>
       )}
       {showSavingsPill && savingsCents > 0 && (
-        <span className="rounded-pill bg-rust-tint px-2.5 py-1 text-xs font-bold text-rust tabular-nums">
+        <span className="rounded-pill bg-grape-tint px-2.5 py-1 text-xs font-bold text-grape tabular-nums">
           Ahorrás {formatPrice(savingsCents)}
         </span>
       )}

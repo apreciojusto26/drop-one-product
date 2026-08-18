@@ -96,6 +96,12 @@ export function BundleSelector({
         label={variantGroupLabel}
       />
 
+      <div className="flex items-center gap-3" aria-hidden="true">
+        <span className="h-px flex-1 bg-graphite/10" />
+        <span className="text-[0.6875rem] font-bold uppercase tracking-widest text-grape">Compra más y ahorra</span>
+        <span className="h-px flex-1 bg-graphite/10" />
+      </div>
+
       <div role="radiogroup" aria-label="Elige tu pack" className="space-y-3">
         {packs.map((p) => {
           const checked = p.id === pack.id;
@@ -104,10 +110,10 @@ export function BundleSelector({
           return (
             <label
               key={p.id}
-              className="has-[:checked]:border-rust has-[:checked]:bg-rust-tint has-[:checked]:shadow-lift relative flex items-center gap-3 rounded-tile border-2 border-graphite/10 bg-white p-4 transition"
+              className="has-[:checked]:border-grape has-[:checked]:bg-grape-tint has-[:checked]:shadow-lift relative flex items-center gap-3 rounded-tile border-2 border-graphite/10 bg-white p-4 transition"
             >
               {p.popular && p.badge && (
-                <span className="absolute -top-2.5 left-4 rounded-pill bg-rust px-2.5 py-0.5 text-[0.625rem] font-black uppercase tracking-widest text-white shadow-card">
+                <span className="absolute -top-2.5 left-4 rounded-pill bg-amber-600 px-2.5 py-0.5 text-[0.625rem] font-black uppercase tracking-widest text-white shadow-card">
                   {p.badge}
                 </span>
               )}
@@ -119,13 +125,17 @@ export function BundleSelector({
                 onChange={() => $selectedPackId.set(p.id)}
                 className="peer sr-only"
               />
-              <span className="peer-checked:border-[6px] peer-checked:border-rust size-5 shrink-0 rounded-full border-2 border-steel-light" aria-hidden="true" />
+              <span className="peer-checked:border-[6px] peer-checked:border-grape size-5 shrink-0 rounded-full border-2 border-steel-light" aria-hidden="true" />
               <span className="flex-1">
                 <span className="block font-display font-bold text-graphite">{packDisplayLabel(p, pProjection)}</span>
-                {p.sublabel && <span className="block text-xs text-steel">{p.sublabel}</span>}
+                {p.savingsPct ? (
+                  <span className="block text-xs font-semibold text-steel">Ahorras {p.savingsPct}%</span>
+                ) : p.sublabel ? (
+                  <span className="block text-xs text-steel">{p.sublabel}</span>
+                ) : null}
               </span>
               <span className="text-right">
-                <span className="block font-display font-bold tabular-nums text-graphite">
+                <span className="block font-display font-black tabular-nums text-graphite">
                   {formatPrice(pProjection.priceCents)}
                 </span>
                 {pProjection.compareAtCents > pProjection.priceCents && (
@@ -159,7 +169,7 @@ export function BundleSelector({
         onClick={handleCta}
         disabled={ctaDisabled}
         aria-busy={ariaBusy}
-        className="flex h-14 w-full items-center justify-center gap-2 rounded-pill bg-rust px-6 font-display text-base font-bold tracking-wide text-white shadow-lift transition active:scale-[.99] hover:bg-rust-dark disabled:cursor-not-allowed disabled:opacity-60"
+        className="flex h-14 w-full items-center justify-center gap-2 rounded-pill bg-grape px-6 font-display text-base font-bold tracking-wide text-white shadow-lift transition active:scale-[.99] hover:bg-grape-dark disabled:cursor-not-allowed disabled:opacity-60"
       >
         {ctaLabel}
       </button>

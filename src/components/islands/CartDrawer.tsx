@@ -105,7 +105,7 @@ export function CartDrawer({ commerce }: CartDrawerProps) {
               <a
                 href="/#buy"
                 onClick={close}
-                className="mt-4 inline-flex h-11 items-center justify-center rounded-pill bg-rust px-5 font-display text-sm font-bold tracking-wide text-white shadow-lift transition hover:bg-rust-dark"
+                className="mt-4 inline-flex h-11 items-center justify-center rounded-pill bg-grape px-5 font-display text-sm font-bold tracking-wide text-white shadow-lift transition hover:bg-grape-dark"
               >
                 Ver el producto
               </a>
@@ -128,7 +128,7 @@ export function CartDrawer({ commerce }: CartDrawerProps) {
 
                 <div className="flex flex-1 flex-col gap-1.5">
                   <p className="text-sm font-semibold text-graphite">{variant.title}</p>
-                  <p className="text-sm font-bold text-rust tabular-nums">{formatPrice(variant.unitPriceCents)}</p>
+                  <p className="text-sm font-bold text-grape tabular-nums">{formatPrice(variant.unitPriceCents)}</p>
 
                   <div className="mt-auto flex items-center gap-2">
                     <button
@@ -157,7 +157,7 @@ export function CartDrawer({ commerce }: CartDrawerProps) {
                       onClick={() => void syncCartLine(line.variantId, 0)}
                       disabled={isPending}
                       aria-label="Eliminar del carrito"
-                      className="ml-auto text-xs font-medium text-rust transition hover:text-rust-dark disabled:cursor-not-allowed disabled:opacity-50"
+                      className="ml-auto text-xs font-medium text-grape transition hover:text-grape-dark disabled:cursor-not-allowed disabled:opacity-50"
                     >
                       Eliminar
                     </button>
@@ -194,7 +194,7 @@ export function CartDrawer({ commerce }: CartDrawerProps) {
               onClick={checkout}
               disabled={isPending}
               aria-busy={isPending}
-              className="mt-4 flex h-14 w-full items-center justify-center gap-2 rounded-pill bg-rust px-6 font-display text-base font-bold tracking-wide text-white shadow-lift transition active:scale-[.99] hover:bg-rust-dark disabled:cursor-not-allowed disabled:opacity-60"
+              className="mt-4 flex h-14 w-full items-center justify-center gap-2 rounded-pill bg-grape px-6 font-display text-base font-bold tracking-wide text-white shadow-lift transition active:scale-[.99] hover:bg-grape-dark disabled:cursor-not-allowed disabled:opacity-60"
             >
               {isPending ? product.cta.pending : product.cta.checkout}
             </button>

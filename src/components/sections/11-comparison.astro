@@ -11,7 +11,7 @@ const rowCount = rows.length;
 
 <section class="bg-bone-dim py-12 md:py-16">
   <Container>
-    <p class="text-eyebrow font-bold uppercase text-rust">Comparativa</p>
+    <p class="text-eyebrow font-bold uppercase text-grape">Comparativa</p>
     <h2 class="mt-1 text-display md:text-4xl lg:text-5xl">{product.brand} vs. lámparas decorativas comunes</h2>
 
     <div class="mx-auto mt-6 grid max-w-4xl grid-cols-[1.3fr_1fr_1fr] overflow-hidden rounded-card text-sm">
@@ -32,7 +32,7 @@ const rowCount = rows.length;
                 ]}
               >
                 {typeof row.ours === 'boolean' ? (
-                  <svg viewBox={row.ours ? check.viewBox : cross.viewBox} class="mx-auto size-5 text-rust" aria-hidden="true">
+                  <svg viewBox={row.ours ? check.viewBox : cross.viewBox} class="mx-auto size-5 text-grape" aria-hidden="true">
                     <path fill="currentColor" d={row.ours ? check.path : cross.path} />
                   </svg>
                 ) : (

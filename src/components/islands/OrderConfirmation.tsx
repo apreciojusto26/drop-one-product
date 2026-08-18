@@ -94,7 +94,7 @@ export function OrderConfirmation({ paymentRef }: OrderConfirmationProps) {
     return (
       <div className="space-y-3">
         <p className="text-graphite">No pudimos identificar tu pago.</p>
-        <a href="/" className="font-semibold text-rust underline">
+        <a href="/" className="font-semibold text-grape underline">
           Volver a la tienda
         </a>
       </div>
@@ -114,7 +114,7 @@ export function OrderConfirmation({ paymentRef }: OrderConfirmationProps) {
       <div className="space-y-3">
         <p className="font-display text-lg font-bold text-graphite">¡Gracias por tu compra!</p>
         <p className="text-graphite">Tu pedido {state.orderName} ha sido confirmado.</p>
-        <a href="/" className="font-semibold text-rust underline">
+        <a href="/" className="font-semibold text-grape underline">
           Volver a la tienda
         </a>
       </div>

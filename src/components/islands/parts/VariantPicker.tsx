@@ -29,7 +29,7 @@ export function VariantPicker({ variants, selectedId, onSelect, label }: Variant
           return (
             <label
               key={variant.id}
-              className={`has-[:checked]:border-rust has-[:checked]:bg-rust-tint has-[:checked]:text-rust relative flex items-center rounded-pill border-2 border-graphite/10 px-3 py-2 text-sm font-semibold text-graphite transition ${
+              className={`has-[:checked]:border-grape has-[:checked]:bg-grape-tint has-[:checked]:text-grape relative flex items-center rounded-pill border-2 border-graphite/10 px-3 py-2 text-sm font-semibold text-graphite transition ${
                 disabled ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'
               }`}
             >

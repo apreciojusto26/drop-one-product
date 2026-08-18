@@ -121,7 +121,7 @@ export function StickyAddToCart({
           disabled={soldOut || isPending}
           tabIndex={visible ? 0 : -1}
           aria-busy={isPending}
-          className="flex h-11 shrink-0 items-center justify-center gap-2 rounded-pill bg-rust px-4 font-display text-sm font-bold tracking-wide text-white shadow-lift transition active:scale-[.99] hover:bg-rust-dark disabled:cursor-not-allowed disabled:opacity-60"
+          className="flex h-11 shrink-0 items-center justify-center gap-2 rounded-pill bg-grape px-4 font-display text-sm font-bold tracking-wide text-white shadow-lift transition active:scale-[.99] hover:bg-grape-dark disabled:cursor-not-allowed disabled:opacity-60"
         >
           <span className="tabular-nums">{formatPrice(totalCents)}</span>
           <span>{ctaText}</span>

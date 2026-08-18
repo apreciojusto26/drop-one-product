@@ -1,13 +1,13 @@
 ---
 interface Props {
-  tone?: 'rust' | 'gold' | 'graphite';
+  tone?: 'grape' | 'gold' | 'graphite';
   class?: string;
 }
 
-const { tone = 'rust', class: className } = Astro.props;
+const { tone = 'grape', class: className } = Astro.props;
 
 const tones = {
-  rust: 'bg-rust-tint text-rust',
+  grape: 'bg-grape-tint text-grape',
   gold: 'bg-gold-tint text-gold',
   graphite: 'bg-graphite/5 text-graphite',
 };
