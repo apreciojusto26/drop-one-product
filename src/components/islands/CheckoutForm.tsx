@@ -297,7 +297,7 @@ export function CheckoutForm({ commerce }: CheckoutFormProps) {
         </section>
       </form>
 
-      <aside className="sticky top-24 hidden rounded-card bg-white p-5 shadow-lift lg:block" aria-label="Resumen del pedido">
+      <aside className="sticky top-8 hidden rounded-card bg-white p-5 shadow-lift lg:-mt-16 lg:block" aria-label="Resumen del pedido">
         <h2 className="mb-4 font-display text-base font-bold text-graphite">Tu pedido ({cart.totalQuantity})</h2>
         {orderSummary}
       </aside>

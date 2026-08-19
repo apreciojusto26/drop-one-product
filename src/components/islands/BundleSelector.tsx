@@ -99,6 +99,10 @@ export function BundleSelector({
 
   return (
     <div className="space-y-4">
+      {/^24\s+slides?$/i.test(variant.title.trim()) && (
+        <p className="text-xs font-semibold text-red-600">Quedan pocas piezas</p>
+      )}
+
       <VariantPicker
         variants={visibleVariants}
         selectedId={variant.id}
