@@ -22,7 +22,7 @@ export const product = {
 
   // Admin's internal option name is "Emitting Color" — NEVER shown to buyers.
   // The 9 values are projection configurations, not colors.
-  variantGroupLabel: 'Tipo de proyección',
+  variantGroupLabel: 'Elige tus proyecciones',
 
   errors: {
     network: 'No pudimos conectar con la tienda. Prueba de nuevo en unos segundos.',
@@ -45,7 +45,7 @@ export const product = {
   badges: ['Envío 24-48h', 'Pila incluida', 'Garantía 30 días'],
 
   trustTicker: [
-    'Envío gratis desde 29€',
+    'Envío gratis a España',
     'Pago 100% seguro',
     '+120 reseñas de 5 estrellas',
     'Garantía de 30 días',
@@ -110,12 +110,11 @@ export const product = {
     {
       id: 'x2free1',
       units: 2,
-      freeUnits: 1,
-      label: 'Pack 2 + 1 GRATIS',
+      freeUnits: 0,
+      label: 'Pack 2 unidades',
       sublabel: 'El que más se lleva',
-      badge: 'Más popular',
+      badge: 'Ahorra más',
       popular: true,
-      freeGift: true,
       default: false,
     },
   ],
@@ -161,8 +160,8 @@ export const product = {
   steps: [
     {
       step: 1,
-      title: 'Desliza para cambiar la escena',
-      text: 'Las 24 películas deslizantes te dejan alternar entre cielos estrellados, nebulosas y la vía láctea con un simple gesto.',
+      title: 'Elige tu proyección',
+      text: 'Escoge entre las versiones de 1, 6 o 24 películas de proyección y encuentra el ambiente que más te guste.',
       media: {
         asset: 'step-01',
         alt: 'Cielo colorido proyectado por AstraVibe con efecto vía láctea y nebulosa',
@@ -171,8 +170,8 @@ export const product = {
     },
     {
       step: 2,
-      title: 'Un toque para encender',
-      text: 'Sin enchufe ni dispositivos inteligentes: toca la superficie y la proyección arranca al instante, alimentada por pila botón incluida.',
+      title: 'Enciende Astra Vibe',
+      text: 'Coloca tu proyector de galaxias donde quieras y actívalo fácilmente con su control táctil.',
       media: {
         asset: 'video-01',
         kind: 'video',
@@ -183,8 +182,8 @@ export const product = {
     },
     {
       step: 3,
-      title: 'Ambiente nocturno en cualquier rincón',
-      text: 'Sus 30 cm compactos y la batería por pila lo hacen perfecto para mesitas, estantes, coches o la habitación de los niños.',
+      title: 'Disfruta del ambiente',
+      text: 'Apaga las luces y deja que Astra Vibe proyecte estrellas y galaxias para crear un espacio perfecto para relajarte o decorar tu habitación.',
       media: {
         asset: 'gallery-05',
         alt: 'AstraVibe en modo luz nocturna ambientando un rincón oscuro',
@@ -215,7 +214,7 @@ export const product = {
   },
 
   shipping: {
-    etaLabel: 'Envío en 24-48h',
+    etaLabel: 'Envío de 10-20 días',
     freeOverCents: 2900,
   },
 

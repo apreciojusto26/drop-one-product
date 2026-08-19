@@ -43,7 +43,9 @@ export function useSelection({ commerce, packs, bundleOfferActive }: UseSelectio
   }
 
   const defaultVariant =
-    commerce.variants.find((v) => v.id === commerce.defaultVariantId) ?? commerce.variants[0];
+    commerce.variants.find((v) => v.availableForSale && /^24\s+slides?$/i.test(v.title.trim())) ??
+    commerce.variants.find((v) => v.id === commerce.defaultVariantId) ??
+    commerce.variants[0];
   if (!defaultVariant) {
     throw new Error('commerce.variants is empty — build should have failed loudly before reaching this point');
   }

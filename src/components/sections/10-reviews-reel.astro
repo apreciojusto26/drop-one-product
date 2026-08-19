@@ -7,16 +7,16 @@ import { testimonials } from '@/data/testimonials';
 const reelReviews = testimonials.filter((t) => t.variant === 'reel');
 ---
 
-<div class="bg-bone">
-  <WaveDivider fill="graphite" />
+<div class="bg-white">
+  <WaveDivider fill="grape-tint" />
 </div>
 
-<section class="bg-graphite py-14 text-bone">
-  <Container>
-    <ReviewCarousel client:visible reviews={reelReviews} tone="dark" />
-  </Container>
-</section>
-
-<div class="bg-bone-dim">
-  <WaveDivider fill="graphite" flip />
+<div class="bg-grape-tint">
+  <section class="mx-3 rounded-card bg-grape-tint py-10 md:mx-6 md:py-12 xl:mx-auto xl:max-w-[80rem]">
+    <Container>
+      <div>
+        <ReviewCarousel client:visible reviews={reelReviews} />
+      </div>
+    </Container>
+  </section>
 </div>

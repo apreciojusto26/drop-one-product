@@ -3,38 +3,38 @@ import type { FaqItem } from '@/types/content';
 export const faq: FaqItem[] = [
   {
     id: 'que-es',
-    question: '¿Qué es AstraVibe y cómo funciona?',
+    question: '¿Qué es Astra Vibe y cómo funciona este proyector de galaxias?',
     answer:
-      'Es un mini proyector de estrellas USB con 24 películas de proyección deslizantes. Funciona con pila botón incluida y se activa con un toque: proyecta estrellas, nebulosas y la vía láctea en el techo o las paredes de tu habitación.',
+      'Astra Vibe es un proyector de galaxias que proyecta estrellas y escenas espaciales sobre el techo o las paredes. Sus proyecciones ayudan a transformar visualmente una habitación y crear un ambiente decorativo con efecto de cielo estrellado.',
   },
   {
     id: 'pilas',
-    question: '¿Cómo se alimenta? ¿Incluye las pilas?',
+    question: '¿Cómo se alimenta el proyector Astra Vibe? ¿Incluye pilas?',
     answer:
-      'Funciona con una pila botón que viene incluida, y también incluye la lámpara. No requiere enchufe ni cable: es totalmente portátil, ideal para usar en casa, en el coche o donde quieras.',
+      'Astra Vibe funciona con una pila botón que viene incluida. Se activa con un toque y no necesita estar conectado a un enchufe durante su uso.',
   },
   {
-    id: 'encendido',
-    question: '¿Cómo se enciende y se cambia la escena?',
+    id: 'proyecciones',
+    question: '¿Cómo se cambian las proyecciones de estrellas y galaxias?',
     answer:
-      'Se enciende con un simple toque en su superficie. Para cambiar la proyección, desliza las 24 películas incluidas y elige entre distintos cielos estrellados, nebulosas y la vía láctea.',
+      'Las proyecciones se cambian utilizando las películas o slides deslizables incluidas con la versión elegida. Este proyector de estrellas y galaxias está disponible con 1, 6 o 24 slides, por lo que la cantidad de escenas depende de la variante seleccionada.',
   },
   {
     id: 'uso-oscuro',
-    question: '¿En qué ambiente se ve mejor el efecto?',
+    question: '¿Dónde se ve mejor el proyector de galaxias?',
     answer:
-      'El efecto estrellado es más fuerte en habitaciones completamente oscuras. Con algo de luz ambiente también se percibe, pero para disfrutar la máxima atmósfera espacial te recomendamos proyectar en penumbra.',
+      'La proyección se aprecia mejor en una habitación oscura o con poca iluminación. En esas condiciones, el cielo estrellado resulta más visible y ayuda a crear un ambiente espacial más definido.',
   },
   {
     id: 'luz-nocturna',
-    question: '¿Sirve como luz de noche?',
+    question: '¿Astra Vibe sirve como luz nocturna para habitaciones?',
     answer:
-      'Sí. Además de proyectar estrellas, funciona como luz nocturna con una emisión suave y relajante, perfecta para ayudar a los niños a dormir o para relajarse en casa.',
+      'Sí. Astra Vibe también funciona como luz nocturna y proyector de ambiente, creando una iluminación suave y decorativa durante la noche.',
   },
   {
     id: 'garantia',
-    question: '¿Qué garantía tiene?',
+    question: '¿Qué garantía tiene el proyector Astra Vibe?',
     answer:
-      'AstraVibe tiene 30 días de garantía de devolución. Si no cumple tus expectativas, te devolvemos el importe sin necesidad de justificar el motivo.',
+      'Astra Vibe tiene una garantía de 30 días. Si no supera tus expectativas, te devolvemos el dinero.',
   },
 ];

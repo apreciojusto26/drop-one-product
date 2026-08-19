@@ -3,13 +3,10 @@ import { useStore } from '@nanostores/react';
 import { $cartStatus, checkout, syncCartLine } from '@/stores/cart';
 import { $isLightboxOpen } from '@/stores/ui';
 import { useSelection } from '@/components/islands/parts/use-selection';
-import { PlaceholderShot } from '@/components/islands/parts/PlaceholderShot';
 import { formatPrice } from '@/lib/format';
-import { packDisplayLabel } from '@/lib/shopify/pricing';
 import { centsToUnits, trackEvent } from '@/lib/analytics';
 import type { ProductCommerce } from '@/lib/shopify/types';
 import type { PricePack } from '@/types/content';
-import type { ResolvedImage } from '@/types/content';
 
 interface StickyAddToCartProps {
   commerce: ProductCommerce;
@@ -19,7 +16,6 @@ interface StickyAddToCartProps {
   pendingLabel: string;
   soldOutLabel: string;
   checkoutLabel: string;
-  thumb: ResolvedImage | null;
   /** R4: sentinel is the END of Hero (#hero-end), NOT #buybox-end. */
   sentinelId: string;
 }
@@ -32,14 +28,13 @@ export function StickyAddToCart({
   pendingLabel,
   soldOutLabel,
   checkoutLabel,
-  thumb,
   sentinelId,
 }: StickyAddToCartProps) {
   const [pastSentinel, setPastSentinel] = useState(false);
   const [dismissed, setDismissed] = useState(false);
   const isLightboxOpen = useStore($isLightboxOpen);
   const cartStatus = useStore($cartStatus);
-  const { variant, pack, projection, totalCents, cart } = useSelection({ commerce, packs, bundleOfferActive });
+  const { variant, projection, totalCents, cart } = useSelection({ commerce, packs, bundleOfferActive });
 
   useEffect(() => {
     const sentinel = document.getElementById(sentinelId);
@@ -95,24 +90,10 @@ export function StickyAddToCart({
       inert={!visible ? true : undefined}
       className="fixed inset-x-0 bottom-0 z-40 translate-y-full border-t border-graphite/10 bg-surface/95 pb-[env(safe-area-inset-bottom)] shadow-sticky backdrop-blur transition-transform duration-300 motion-reduce:transition-none data-[show=true]:translate-y-0"
     >
-      <div className="flex items-center gap-3 px-5 py-3">
-        <div className="size-11 shrink-0 overflow-hidden rounded-tile">
-          {thumb ? (
-            thumb.placeholder ? (
-              <PlaceholderShot ratio="1/1" alt={thumb.alt} rounded="rounded-tile" className="size-full" />
-            ) : (
-              <img src={thumb.src} alt="" aria-hidden="true" className="size-full object-cover" />
-            )
-          ) : (
-            <PlaceholderShot ratio="1/1" alt={commerce.title} rounded="rounded-tile" className="size-full" />
-          )}
-        </div>
-
-        <div className="min-w-0 flex-1">
-          <p className="truncate text-xs font-semibold text-graphite">{commerce.title}</p>
-          <p className="truncate text-xs text-steel">
-            {variant.title} · {packDisplayLabel(pack, projection)}
-          </p>
+      <div className="flex items-center gap-2 px-5 py-3">
+        <div className="shrink-0">
+          <p className="whitespace-nowrap text-sm font-bold text-graphite">{projection.totalUnits}x Astra Vibe</p>
+          <p className="mt-0.5 text-sm font-semibold tabular-nums text-grape">{formatPrice(totalCents)}</p>
         </div>
 
         <button
@@ -121,10 +102,9 @@ export function StickyAddToCart({
           disabled={soldOut || isPending}
           tabIndex={visible ? 0 : -1}
           aria-busy={isPending}
-          className="flex h-11 shrink-0 items-center justify-center gap-2 rounded-pill bg-rust px-4 font-display text-sm font-bold tracking-wide text-white shadow-lift transition active:scale-[.99] hover:bg-rust-dark disabled:cursor-not-allowed disabled:opacity-60"
+          className="ml-auto flex h-9 min-w-0 shrink-0 items-center justify-center rounded-pill bg-grape px-3 font-display text-[0.6875rem] font-bold tracking-wide text-white shadow-lift transition active:scale-[.99] hover:bg-grape-dark disabled:cursor-not-allowed disabled:opacity-60"
         >
-          <span className="tabular-nums">{formatPrice(totalCents)}</span>
-          <span>{ctaText}</span>
+          <span className="whitespace-nowrap">{ctaText}</span>
         </button>
 
         <button
@@ -132,7 +112,7 @@ export function StickyAddToCart({
           onClick={() => setDismissed(true)}
           tabIndex={visible ? 0 : -1}
           aria-label="Cerrar"
-          className="flex size-9 shrink-0 items-center justify-center rounded-tile text-steel transition hover:bg-bone-dim hover:text-graphite"
+          className="flex size-8 shrink-0 items-center justify-center rounded-tile text-steel transition hover:bg-bone-dim hover:text-graphite"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"

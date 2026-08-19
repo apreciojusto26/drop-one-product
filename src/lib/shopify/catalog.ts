@@ -69,10 +69,11 @@ async function fetchProductCommerce(): Promise<ProductCommerce> {
   const variants: VariantOption[] = variantNodes.map((node) => {
     const optionValue = node.selectedOptions[0]?.value ?? node.title;
     const imageIndex = node.image ? images.findIndex((img) => img.url === node.image!.url) : -1;
+    const customerTitle = /^1\s+random\s+slides?$/i.test(node.title.trim()) ? '1 Slide' : node.title;
 
     return {
       id: node.id,
-      title: node.title,
+      title: customerTitle,
       optionValue,
       availableForSale: node.availableForSale,
       unitPriceCents: moneyToCents(node.price.amount),

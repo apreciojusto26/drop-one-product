@@ -11,7 +11,7 @@ export function CartButton() {
       type="button"
       onClick={() => $isCartOpen.set(true)}
       aria-label={`Abrir carrito${count > 0 ? `, ${count} ${count === 1 ? 'artículo' : 'artículos'}` : ''}`}
-      className="relative size-6 text-graphite"
+      className="relative size-6 text-purple-800 motion-safe:transition hover:text-purple-700"
     >
       <svg viewBox="0 0 24 24" className="size-6" aria-hidden="true" focusable="false">
         <path
@@ -20,7 +20,7 @@ export function CartButton() {
         ></path>
       </svg>
       {count > 0 && (
-        <span className="absolute -right-2 -top-2 flex h-4 min-w-4 items-center justify-center rounded-pill bg-rust px-1 text-[0.625rem] font-black leading-none text-white tabular-nums">
+        <span className="absolute -right-2 -top-2 flex h-4 min-w-4 items-center justify-center rounded-pill bg-grape px-1 text-[0.625rem] font-black leading-none text-white tabular-nums">
           {count}
         </span>
       )}

@@ -9,8 +9,7 @@ interface VariantPickerProps {
 }
 
 /**
- * Pill group over the 9 "Emitting Color" values — NOT a dropdown, so all
- * named slide configurations stay visible/comparable at a glance. Reuses the
+ * Compact pill group for the customer-facing slide configurations. Reuses the
  * buy box's existing accessible radio pattern: role="radiogroup" + <label>
  * wrapping an sr-only native radio + has-[:checked]:/peer-checked: CSS, so
  * keyboard/arrow semantics come free.
@@ -19,20 +18,26 @@ export function VariantPicker({ variants, selectedId, onSelect, label }: Variant
   const groupName = useId();
 
   return (
-    <div role="radiogroup" aria-label={label} className="space-y-1.5">
+    <div role="radiogroup" aria-label={label} className="space-y-2">
       <span className="block text-xs font-semibold text-graphite">{label}</span>
-      <div className="flex flex-wrap gap-2">
+      <div className="grid grid-cols-3 gap-1.5 sm:gap-2">
         {variants.map((variant) => {
           const checked = variant.id === selectedId;
           const disabled = !variant.availableForSale;
+          const isPopular = /^24\s+slides?$/i.test(variant.title.trim());
 
           return (
             <label
               key={variant.id}
-              className={`has-[:checked]:border-rust has-[:checked]:bg-rust-tint has-[:checked]:text-rust relative flex items-center rounded-pill border-2 border-graphite/10 px-3 py-2 text-sm font-semibold text-graphite transition ${
+              className={`has-[:checked]:border-grape has-[:checked]:bg-grape-tint has-[:checked]:text-grape relative flex min-w-0 flex-col items-center justify-center rounded-pill border-2 border-graphite/10 px-1.5 py-2 text-center text-sm font-semibold text-graphite transition sm:px-3 ${
                 disabled ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'
               }`}
             >
+              {isPopular && (
+                <span className="absolute -top-2.5 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-pill bg-amber-600 px-2 py-0.5 text-[0.5625rem] font-black uppercase tracking-wider text-white shadow-card sm:text-[0.625rem]">
+                  Más popular
+                </span>
+              )}
               <input
                 type="radio"
                 name={groupName}
@@ -43,8 +48,8 @@ export function VariantPicker({ variants, selectedId, onSelect, label }: Variant
                 onChange={() => !disabled && onSelect(variant.id)}
                 className="peer sr-only"
               />
-              <span className={disabled ? 'line-through' : undefined}>{variant.title}</span>
-              {disabled && <span className="ml-1.5 text-xs font-normal text-steel">Agotado</span>}
+              <span className={`whitespace-nowrap ${disabled ? 'line-through' : ''}`}>{variant.title}</span>
+              {disabled && <span className="text-xs font-normal text-steel">Agotado</span>}
             </label>
           );
         })}

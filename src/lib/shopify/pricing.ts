@@ -26,5 +26,6 @@ export function projectPack(v: VariantOption, pack: PricePack, offerActive: bool
 
 /** Suppresses "gratis" pack copy until BXGY is verified live in Shopify admin (design decision #9). */
 export function packDisplayLabel(pack: PricePack, projection: PackProjection): string {
-  return projection.claimsFreeUnits ? pack.label : `${projection.totalUnits} unidades`;
+  if (projection.claimsFreeUnits) return pack.label;
+  return `${projection.totalUnits} ${projection.totalUnits === 1 ? 'unidad' : 'unidades'}`;
 }

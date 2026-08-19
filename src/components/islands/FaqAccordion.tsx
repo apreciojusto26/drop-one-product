@@ -10,14 +10,17 @@ export function FaqAccordion({ items }: FaqAccordionProps) {
   const openId = useStore($openFaqId);
 
   return (
-    <div className="divide-y divide-graphite/10">
+    <div className="overflow-hidden rounded-tile bg-surface shadow-card divide-y divide-graphite/10">
       {items.map((item) => {
         const isOpen = openId === item.id;
         const panelId = `faq-panel-${item.id}`;
         const triggerId = `faq-trigger-${item.id}`;
 
         return (
-          <div key={item.id}>
+          <div
+            key={item.id}
+            className={`transition-colors ${isOpen ? 'bg-grape-tint/50' : 'bg-surface'}`}
+          >
             <h3>
               <button
                 id={triggerId}
@@ -25,7 +28,7 @@ export function FaqAccordion({ items }: FaqAccordionProps) {
                 aria-expanded={isOpen}
                 aria-controls={panelId}
                 onClick={() => $openFaqId.set(isOpen ? null : item.id)}
-                className="flex w-full items-start justify-between gap-4 py-4 text-left font-semibold text-graphite"
+                className="flex min-h-12 w-full items-start justify-between gap-4 px-4 py-3.5 text-left text-sm font-bold leading-snug text-graphite focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-grape/40 md:px-5 md:py-4 md:text-base"
               >
                 <span>{item.question}</span>
                 <svg
@@ -48,8 +51,10 @@ export function FaqAccordion({ items }: FaqAccordionProps) {
                 isOpen ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'
               }`}
             >
-              <div className="min-h-0 overflow-hidden">
-                <p className="pb-4 text-sm text-steel">{item.answer}</p>
+              <div className={`min-h-0 overflow-hidden transition-opacity duration-200 motion-reduce:transition-none ${isOpen ? 'opacity-100' : 'opacity-0'}`}>
+                <p className="px-4 pb-4 pr-12 text-sm leading-relaxed text-graphite md:px-5 md:pb-5 md:pr-14">
+                  {item.answer}
+                </p>
               </div>
             </div>
           </div>

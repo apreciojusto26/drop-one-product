@@ -1,16 +1,72 @@
 ---
-import Media from '@/components/ui/Media.astro';
-import { product } from '@/data/product';
+const galleryImages = [
+  {
+    src: '/img/Galeria/Removing_hand_from_product_image_202608190134.jpeg',
+    alt: 'Astra Vibe sobre una mesa con su conexión USB',
+  },
+  {
+    src: '/img/Galeria/Projecting_design_onto_child_room_202608190141.jpeg',
+    alt: 'Proyección de una ballena y estrellas en el techo de una habitación infantil',
+  },
+  {
+    src: '/img/Galeria/Hands_holding_starry_box_2K_202608190126.jpeg',
+    alt: 'Caja de Astra Vibe sostenida con las manos en un parque',
+  },
+  {
+    src: '/img/Galeria/Requesting_realistic_images_with…_2K_202608190137.jpeg',
+    alt: 'Detalle de Astra Vibe encendido con control táctil',
+  },
+];
+
+// Repeat the complete 1 → 2 → 3 → 4 sequence so boundaries never place the
+// same image beside itself, while each identical half still covers wide screens.
+const marqueeTrackImages = [
+  ...galleryImages,
+  ...galleryImages,
+  ...galleryImages,
+  ...galleryImages,
+  ...galleryImages,
+];
 ---
 
-<section class="py-8">
-  <div class="flex gap-3 overflow-x-auto px-5 [scrollbar-width:none] snap-x">
-    {
-      product.ugc.map((item, i) => (
-        <div class="w-[42%] max-w-[11rem] shrink-0 snap-start lg:max-w-[14rem]">
-          <Media media={item} rounded="rounded-tile" class="aspect-[9/16] w-full" loading={i < 2 ? 'eager' : 'lazy'} />
-        </div>
-      ))
-    }
+<section class="overflow-hidden bg-white py-8">
+  <div class="overflow-hidden px-5 motion-reduce:overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+    <div class="flex w-max animate-[marquee_94s_linear_infinite] motion-reduce:animate-none">
+      <div class="flex gap-3 pr-3">
+        {
+          marqueeTrackImages.map((image) => (
+            <div class="w-[42vw] max-w-[11rem] shrink-0 lg:max-w-[14rem]">
+              <img
+                src={image.src}
+                alt={image.alt}
+                width="1536"
+                height="2752"
+                loading="eager"
+                decoding="async"
+                class="aspect-[9/16] w-full rounded-tile object-cover"
+              />
+            </div>
+          ))
+        }
+      </div>
+
+      <div class="flex gap-3 pr-3" aria-hidden="true">
+        {
+          marqueeTrackImages.map((image) => (
+            <div class="w-[42vw] max-w-[11rem] shrink-0 lg:max-w-[14rem]">
+              <img
+                src={image.src}
+                alt=""
+                width="1536"
+                height="2752"
+                loading="lazy"
+                decoding="async"
+                class="aspect-[9/16] w-full rounded-tile object-cover"
+              />
+            </div>
+          ))
+        }
+      </div>
+    </div>
   </div>
 </section>

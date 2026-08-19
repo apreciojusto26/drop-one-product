@@ -9,10 +9,12 @@
   --color-graphite-soft:#2A2E33;
   --color-steel:       #8A9096;
   --color-steel-light: #C5CACE;
-  --color-rust:        #C8552F;
-  --color-rust-dark:   #A6421F;
-  --color-rust-tint:   #FBEDE7;
-  --color-gold:        #C9A227;
+  --color-grape:        #7C3AED;
+  --color-grape-dark:   #6D28D9;
+  --color-grape-tint:   #EFEAFE;
+  --color-grape-deep:   #4C1D95;
+  --color-grape-soft:   #A78BFA;
+  --color-gold:        #FFB100;
   --color-gold-tint:   #F7EFD6;
   --color-surface:     #FFFFFF;
 
@@ -39,10 +41,12 @@
   --shadow-ring-white: 0 0 0 4px #FFFFFF;
 
   --breakpoint-xs: 22.5rem;
-  --animate-marquee: marquee 26s linear infinite;
+  --animate-marquee: marquee 20s linear infinite;
+  --animate-shine: shine 3.5s linear infinite;
 }
 
 @keyframes marquee { from { transform: translate3d(0,0,0);} to { transform: translate3d(-50%,0,0);} }
+@keyframes shine { 0% { background-position: 200% center; } 100% { background-position: -200% center; } }
 
 @layer base {
   html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
