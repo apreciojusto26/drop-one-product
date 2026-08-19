@@ -12,7 +12,8 @@ import type { APIRoute } from 'astro';
 import { validateCheckoutForm, type CheckoutFormData } from '@/lib/checkout/validation';
 import { putSession } from '@/lib/kv';
 import { cartGet } from '@/lib/shopify/cart';
-import { createCheckout, newRef } from '@/lib/sumup/checkout';
+import { resolveCanonicalOrigin } from '@/lib/site-origin';
+import { buildCheckoutRedirectUrl, createCheckout, newRef } from '@/lib/sumup/checkout';
 
 interface SessionRequestBody extends CheckoutFormData {
   cartId: string;
@@ -49,6 +50,11 @@ export const POST: APIRoute = async ({ request, url, cookies }) => {
   }
 
   try {
+    // Never derive payment callbacks from the incoming Host header. Resolve
+    // this before any external call or persistence so invalid production
+    // configuration fails closed without leaving an orphan session behind.
+    const canonicalOrigin = resolveCanonicalOrigin(url);
+
     // Authoritative cart re-fetch — never trust anything the client claims
     // about totals/line items beyond the cart id itself.
     const cart = await cartGet(raw.cartId);
@@ -65,8 +71,12 @@ export const POST: APIRoute = async ({ request, url, cookies }) => {
       amountCents: cart.totalCents,
     });
 
-    const webhookUrl = new URL('/api/sumup/webhook', url.origin).toString();
-    const checkout = await createCheckout({ ref, amountCents: cart.totalCents, webhookUrl });
+    const webhookUrl = new URL('/api/sumup/webhook', canonicalOrigin).toString();
+    // Fixed server-owned destination: the request body cannot choose a URL.
+    // Keeping the ref here lets the confirmation page poll settlement after
+    // SumUp returns from Apple Pay, Google Pay, or a redirected card flow.
+    const redirectUrl = buildCheckoutRedirectUrl(canonicalOrigin, ref);
+    const checkout = await createCheckout({ ref, amountCents: cart.totalCents, webhookUrl, redirectUrl });
 
     // Backup ref carrier alongside the query string the client navigates
     // with on widget success — not the primary path (see gracias.astro),

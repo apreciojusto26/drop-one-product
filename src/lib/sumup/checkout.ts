@@ -32,13 +32,25 @@ interface CreateCheckoutInput {
   ref: string;
   amountCents: number;
   webhookUrl: string; // -> SumUp `return_url`: server-to-server notification callback (verified, NOT a browser redirect)
+  redirectUrl: string; // -> SumUp `redirect_url`: browser destination required for Apple Pay / Google Pay in the widget
 }
 
 /**
- * Creates a SumUp Checkout. Deliberately omits `redirect_url` — per SumUp's
- * own docs, omitting it makes the Payment Widget render 3DS/SCA challenges
- * inline in an iframe instead of a full-page redirect, which is exactly
- * what the spec's "3DS challenge completes inline" scenario requires.
+ * Builds the fixed, server-owned browser destination used by SumUp after an
+ * alternative payment method finishes. Only the opaque checkout ref is
+ * variable; callers cannot supply a destination, so this cannot become an
+ * open redirect.
+ */
+export function buildCheckoutRedirectUrl(origin: string, ref: string): string {
+  const redirectUrl = new URL('/checkout/gracias', origin);
+  redirectUrl.searchParams.set('ref', ref);
+  return redirectUrl.toString();
+}
+
+/**
+ * Creates a SumUp Checkout. `redirect_url` is required for Apple Pay and
+ * Google Pay through the Payment Widget. `return_url` remains a separate
+ * server-to-server webhook callback and must not be replaced by it.
  */
 export async function createCheckout(input: CreateCheckoutInput): Promise<SumUpCheckout> {
   const { merchantCode } = assertEnv();
@@ -53,6 +65,7 @@ export async function createCheckout(input: CreateCheckoutInput): Promise<SumUpC
       // Backend callback SumUp POSTs {event_type, id} to on status change —
       // NOT the field the buyer's browser is redirected to.
       return_url: input.webhookUrl,
+      redirect_url: input.redirectUrl,
     }),
   });
 }

@@ -23,6 +23,9 @@ export default defineConfig({
     schema: {
       SHOPIFY_ADMIN_TOKEN: envField.string({ context: 'server', access: 'secret', optional: true }),
       SHOPIFY_ADMIN_API_VERSION: envField.string({ context: 'server', access: 'public', optional: true }),
+      // Canonical public origin for payment redirects/webhooks. Server-only
+      // prevents clients from influencing trusted SumUp callback URLs.
+      SITE_URL: envField.string({ context: 'server', access: 'secret', optional: true }),
       SUMUP_API_KEY: envField.string({ context: 'server', access: 'secret', optional: true }),
       SUMUP_MERCHANT_CODE: envField.string({ context: 'server', access: 'secret', optional: true }),
       // No signature/HMAC mechanism exists for SumUp's online-checkout webhook
