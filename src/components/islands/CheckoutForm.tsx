@@ -236,7 +236,7 @@ export function CheckoutForm({ commerce }: CheckoutFormProps) {
   );
 
   return (
-    <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_21rem] lg:items-start lg:gap-10">
+    <div className="xl:grid xl:grid-cols-[minmax(0,1fr)_21rem] xl:items-start xl:gap-10">
       <form onSubmit={preparePayment} className="min-w-0 space-y-5" noValidate>
         <section className="rounded-card bg-white p-5 shadow-lift sm:p-6" aria-labelledby="checkout-contact-title">
           <SectionHeading id="checkout-contact-title">Información</SectionHeading>
@@ -272,7 +272,7 @@ export function CheckoutForm({ commerce }: CheckoutFormProps) {
           <SectionHeading id="checkout-payment-title">Método de pago</SectionHeading>
           <div className="min-h-10" aria-hidden="true" />
 
-          <div className="mt-5 lg:hidden">
+          <div className="mt-5 xl:hidden">
             <h3 className="mb-3 font-display text-sm font-bold text-graphite">Tu pedido ({cart.totalQuantity})</h3>
             {orderSummary}
           </div>
@@ -297,7 +297,7 @@ export function CheckoutForm({ commerce }: CheckoutFormProps) {
         </section>
       </form>
 
-      <aside className="sticky top-8 hidden rounded-card bg-white p-5 shadow-lift lg:-mt-16 lg:block" aria-label="Resumen del pedido">
+      <aside className="sticky top-8 hidden rounded-card bg-white p-5 shadow-lift xl:-mt-16 xl:block" aria-label="Resumen del pedido">
         <h2 className="mb-4 font-display text-base font-bold text-graphite">Tu pedido ({cart.totalQuantity})</h2>
         {orderSummary}
       </aside>

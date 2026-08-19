@@ -85,7 +85,7 @@ export function ReviewCarousel({ reviews }: ReviewCarouselProps) {
           <article
             key={review.id}
             aria-label={`${i + 1} de ${reviews.length}`}
-            className="flex w-[86%] shrink-0 snap-start flex-col rounded-card bg-white p-5 text-left shadow-lift sm:w-[48%] lg:w-[31%]"
+            className="flex w-[86%] shrink-0 snap-start flex-col rounded-card bg-white p-5 text-left shadow-lift sm:w-[48%] xl:w-[31%]"
           >
             <Stars rating={review.rating} className="mb-3" />
             <p className="flex-1 text-sm leading-relaxed text-graphite">{review.body}</p>
