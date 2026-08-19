@@ -3,7 +3,6 @@ import { useStore } from '@nanostores/react';
 import { $cartError, $cartStatus, checkout, syncCartLine } from '@/stores/cart';
 import { $selectedPackId, $selectedVariantId } from '@/stores/checkout';
 import { useSelection } from '@/components/islands/parts/use-selection';
-import { PriceRow } from '@/components/islands/parts/PriceRow';
 import { VariantPicker } from '@/components/islands/parts/VariantPicker';
 import { packDisplayLabel, projectPack } from '@/lib/shopify/pricing';
 import { formatPrice } from '@/lib/format';
@@ -84,13 +83,24 @@ export function BundleSelector({
   }, [cartError, cart, pack, variant, projection, errors]);
 
   const giftProgress = Math.min(1, pack.units / giftThresholdUnits);
+  const slideVariants = commerce.variants
+    .filter((item) => /^(1|6|24)\s+slides?$/i.test(item.title.trim()))
+    .sort((a, b) => {
+      const order = { 1: 0, 6: 1, 24: 2 } as const;
+      const aSlides = Number.parseInt(a.title, 10) as keyof typeof order;
+      const bSlides = Number.parseInt(b.title, 10) as keyof typeof order;
+      return order[aSlides] - order[bSlides];
+    });
+  const visibleVariants = slideVariants.length > 0 ? slideVariants : commerce.variants;
+  const oneUnitPack = packs.find((item) => item.units + item.freeUnits === 1);
+  const oneUnitPriceCents = oneUnitPack
+    ? projectPack(variant, oneUnitPack, bundleOfferActive).priceCents
+    : variant.unitPriceCents;
 
   return (
     <div className="space-y-4">
-      <PriceRow pack={pack} projection={projection} cart={cart} />
-
       <VariantPicker
-        variants={commerce.variants}
+        variants={visibleVariants}
         selectedId={variant.id}
         onSelect={(id) => $selectedVariantId.set(id)}
         label={variantGroupLabel}
@@ -106,13 +116,16 @@ export function BundleSelector({
         {packs.map((p) => {
           const checked = p.id === pack.id;
           const pProjection = projectPack(variant, p, bundleOfferActive);
+          const quantity = pProjection.totalUnits;
+          const displayPriceCents = checked && cart?.line && inSync ? cart.totalCents : pProjection.priceCents;
+          const savingsCents = Math.max(0, oneUnitPriceCents * quantity - displayPriceCents);
 
           return (
             <label
               key={p.id}
               className="has-[:checked]:border-grape has-[:checked]:bg-grape-tint has-[:checked]:shadow-lift relative flex items-center gap-3 rounded-tile border-2 border-graphite/10 bg-white p-4 transition"
             >
-              {p.popular && p.badge && (
+              {quantity === 2 && p.badge && (
                 <span className="absolute -top-2.5 left-4 rounded-pill bg-amber-600 px-2.5 py-0.5 text-[0.625rem] font-black uppercase tracking-widest text-white shadow-card">
                   {p.badge}
                 </span>
@@ -128,17 +141,19 @@ export function BundleSelector({
               <span className="peer-checked:border-[6px] peer-checked:border-grape size-5 shrink-0 rounded-full border-2 border-steel-light" aria-hidden="true" />
               <span className="flex-1">
                 <span className="block font-display font-bold text-graphite">{packDisplayLabel(p, pProjection)}</span>
-                {p.savingsPct ? (
-                  <span className="block text-xs font-semibold text-steel">Ahorras {p.savingsPct}%</span>
+                {savingsCents > 0 ? (
+                  <span className="block text-xs font-semibold text-steel">
+                    Ahorras {formatPrice(savingsCents)}
+                  </span>
                 ) : p.sublabel ? (
                   <span className="block text-xs text-steel">{p.sublabel}</span>
                 ) : null}
               </span>
               <span className="text-right">
                 <span className="block font-display font-black tabular-nums text-graphite">
-                  {formatPrice(pProjection.priceCents)}
+                  {formatPrice(displayPriceCents)}
                 </span>
-                {pProjection.compareAtCents > pProjection.priceCents && (
+                {pProjection.compareAtCents > displayPriceCents && (
                   <span className="block text-xs text-steel line-through tabular-nums">
                     {formatPrice(pProjection.compareAtCents)}
                   </span>

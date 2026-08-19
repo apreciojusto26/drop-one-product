@@ -22,7 +22,7 @@ export const product = {
 
   // Admin's internal option name is "Emitting Color" — NEVER shown to buyers.
   // The 9 values are projection configurations, not colors.
-  variantGroupLabel: 'Tipo de proyección',
+  variantGroupLabel: 'Elige tus proyecciones',
 
   errors: {
     network: 'No pudimos conectar con la tienda. Prueba de nuevo en unos segundos.',
@@ -104,7 +104,6 @@ export const product = {
       freeUnits: 0,
       label: 'Pack 1 unidad',
       sublabel: 'Ideal para probar',
-      savingsPct: 10,
       default: true,
       popular: false,
     },
@@ -114,8 +113,7 @@ export const product = {
       freeUnits: 0,
       label: 'Pack 2 unidades',
       sublabel: 'El que más se lleva',
-      savingsPct: 20,
-      badge: 'Más popular',
+      badge: 'Ahorra más',
       popular: true,
       default: false,
     },

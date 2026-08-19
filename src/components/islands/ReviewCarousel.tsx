@@ -4,7 +4,6 @@ import type { Testimonial } from '@/types/content';
 
 interface ReviewCarouselProps {
   reviews: Testimonial[];
-  tone: 'dark';
 }
 
 const GAP_PX = 16; // matches gap-4 in the track className below
@@ -49,12 +48,12 @@ export function ReviewCarousel({ reviews }: ReviewCarouselProps) {
 
   return (
     <div role="region" aria-roledescription="carousel" aria-label="Reseñas de clientes">
-      <div className="flex items-center justify-end gap-2 pb-3">
+      <div className="hidden items-center justify-end gap-2 pb-3 md:flex">
         <button
           type="button"
           onClick={goPrev}
           aria-label="Reseña anterior"
-          className="grid size-9 place-items-center rounded-full bg-white/10 text-bone hover:bg-white/20"
+          className="grid size-8 place-items-center rounded-full bg-white text-grape shadow-card transition hover:bg-grape/5"
         >
           <svg viewBox="0 0 20 20" className="size-4 rotate-90" aria-hidden="true">
             <path
@@ -67,7 +66,7 @@ export function ReviewCarousel({ reviews }: ReviewCarouselProps) {
           type="button"
           onClick={goNext}
           aria-label="Reseña siguiente"
-          className="grid size-9 place-items-center rounded-full bg-white/10 text-bone hover:bg-white/20"
+          className="grid size-8 place-items-center rounded-full bg-white text-grape shadow-card transition hover:bg-grape/5"
         >
           <svg viewBox="0 0 20 20" className="size-4 -rotate-90" aria-hidden="true">
             <path
@@ -80,20 +79,33 @@ export function ReviewCarousel({ reviews }: ReviewCarouselProps) {
 
       <div
         ref={trackRef}
-        className="flex snap-x snap-mandatory gap-4 overflow-x-auto [scrollbar-width:none] motion-reduce:scroll-auto"
+        className="flex snap-x snap-mandatory gap-4 overflow-x-auto pb-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden motion-reduce:scroll-auto"
       >
         {reviews.map((review, i) => (
           <article
             key={review.id}
             aria-label={`${i + 1} de ${reviews.length}`}
-            className="w-[78%] max-w-[19rem] shrink-0 snap-center rounded-card bg-graphite-soft p-4 ring-1 ring-white/10 lg:max-w-[22rem]"
+            className="flex w-[86%] shrink-0 snap-start flex-col rounded-card bg-white p-5 text-left shadow-lift sm:w-[48%] lg:w-[31%]"
           >
-            <Stars rating={review.rating} className="mb-2" />
-            <p className="text-sm text-bone/80">{review.body}</p>
-            <p className="mt-3 text-xs font-semibold text-bone">
-              {review.author}
-              {review.location && <span className="font-normal text-bone/60">{` · ${review.location}`}</span>}
-            </p>
+            <Stars rating={review.rating} className="mb-3" />
+            <p className="flex-1 text-sm leading-relaxed text-graphite">{review.body}</p>
+            <div className="mt-4">
+              <p className="text-xs font-bold text-graphite">
+                {review.author}
+                {review.location && <span className="font-normal text-steel">{` · ${review.location}`}</span>}
+              </p>
+              {review.verified && (
+                <span className="mt-2 inline-flex items-center justify-center gap-1 rounded-pill bg-gold-tint px-2.5 py-1 text-xs font-semibold uppercase text-amber-700">
+                  <svg viewBox="0 0 20 20" className="size-3.5" aria-hidden="true">
+                    <path
+                      fill="currentColor"
+                      d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z"
+                    />
+                  </svg>
+                  Compra verificada
+                </span>
+              )}
+            </div>
           </article>
         ))}
       </div>
@@ -107,7 +119,7 @@ export function ReviewCarousel({ reviews }: ReviewCarouselProps) {
             aria-selected={i === activeIndex}
             aria-label={`Ir a la reseña ${i + 1}`}
             onClick={() => scrollToIndex(i)}
-            className={`size-1.5 rounded-full transition-colors ${i === activeIndex ? 'bg-gold' : 'bg-white/25'}`}
+            className={`size-1.5 rounded-full transition-colors ${i === activeIndex ? 'bg-grape' : 'bg-grape/25'}`}
           />
         ))}
       </div>
