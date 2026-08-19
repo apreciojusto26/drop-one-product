@@ -88,7 +88,7 @@ export function CartDrawer({ commerce }: CartDrawerProps) {
         </div>
 
         <div className="p-5">
-          {!line || !variant ? (
+          {!cart || !line || !variant ? (
             <div className="flex flex-col items-center justify-center py-16 text-center">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
