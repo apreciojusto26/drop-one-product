@@ -59,7 +59,7 @@ export interface PricePack {
   freeUnits: number; // 2+1 GRATIS -> units:2, freeUnits:1
   label: string; // 'Pack 2 + 1 GRATIS'
   sublabel?: string; // 'El que más se lleva'
-  savingsPct?: number; // descuento promocional del pack, p.ej. 15 -> "Ahorras 15%"
+  discountPercent?: number; // applied to the Shopify-derived unit total; never a hardcoded price
   badge?: string; // 'Más popular'
   popular?: boolean; // drives ribbon + default border emphasis
   freeGift?: boolean; // toggles the gift progress bar to 100%
