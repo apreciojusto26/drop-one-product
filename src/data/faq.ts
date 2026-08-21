@@ -20,6 +20,12 @@ export const faq: FaqItem[] = [
       'Las proyecciones se cambian utilizando las películas o slides deslizables incluidas con la versión elegida. Este proyector de estrellas y galaxias está disponible con 1, 6 o 24 slides, por lo que la cantidad de escenas depende de la variante seleccionada.',
   },
   {
+    id: 'slides',
+    question: '¿Qué son los slides y cuántos incluye cada versión?',
+    answer:
+      'Los slides son las películas deslizables que contienen cada escena de proyección: se insertan en el proyector y se cambian para pasar de un cielo estrellado a otra galaxia. La cantidad depende de la variante que elijas: la versión de 1 slide incluye una película aleatoria, la de 6 slides incluye 6 películas y la de 24 slides incluye las 24 películas a color.',
+  },
+  {
     id: 'uso-oscuro',
     question: '¿Dónde se ve mejor el proyector de galaxias?',
     answer:
