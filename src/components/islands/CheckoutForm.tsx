@@ -11,6 +11,15 @@ interface CheckoutFormProps { commerce: ProductCommerce }
 
 const SUMUP_SDK_URL = 'https://gateway.sumup.com/gateway/ecom/card/v2/sdk.js';
 const WIDGET_CONTAINER_ID = 'sumup-card';
+/**
+ * Google-issued merchant id from the Google Pay Business Console — NOT the
+ * SumUp merchant code (SUMUP_MERCHANT_CODE), which is what SumUp sends on as
+ * `gatewayMerchantId`. Public by design: Google Pay reads it client-side.
+ * Without this block the widget does not render the Google Pay button even
+ * once APMs are active on the account
+ * (developer.sumup.com/online-payments/checkouts/card-widget).
+ */
+const GOOGLE_PAY_MERCHANT_ID = 'BCR2DN7TTD2LDGSJ';
 
 const EMPTY_FORM: CheckoutFormData = {
   email: '',
@@ -54,6 +63,7 @@ declare global {
         checkoutId: string;
         id: string;
         onResponse: (type: SumUpResponseType, body: unknown) => void;
+        googlePay?: { merchantId: string; merchantName: string };
       }) => SumUpCardInstance;
     };
   }
@@ -208,6 +218,9 @@ export function CheckoutForm({ commerce }: CheckoutFormProps) {
           checkoutId,
           id: WIDGET_CONTAINER_ID,
           onResponse: (type) => handleWidgetResponse(type),
+          // merchantName is what the buyer reads inside the Google Pay sheet,
+          // so it must be the storefront brand, not the legal entity.
+          googlePay: { merchantId: GOOGLE_PAY_MERCHANT_ID, merchantName: product.brand },
         });
       })
       .catch(() => {
