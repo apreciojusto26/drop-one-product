@@ -61,9 +61,15 @@ export function buildOrderInput(session: CheckoutSession, cart: CartSnapshot, re
   // Tax-inclusive extraction: grossAmount * rate / (1 + rate).
   const taxAmountCents = Math.round((cart.totalCents * VAT_RATE) / (1 + VAT_RATE));
 
+  // Phone is optional at the form (validation.ts) — Shopify REJECTS an empty
+  // string where it happily accepts an omitted field, so '' must collapse to
+  // undefined exactly like address2/provinceCode below. Sending '' fails
+  // orderCreate for every buyer who skips the field.
+  const phone = session.phone.trim() || undefined;
+
   const order: Record<string, unknown> = {
     email: session.email,
-    phone: session.phone,
+    phone,
     currency: 'EUR',
     taxesIncluded: true,
     financialStatus: 'PAID',
@@ -77,7 +83,7 @@ export function buildOrderInput(session: CheckoutSession, cart: CartSnapshot, re
       provinceCode: session.address.provinceCode || undefined,
       countryCode: session.address.countryCode,
       zip: session.address.zip,
-      phone: session.phone,
+      phone,
     },
     taxLines: [
       {

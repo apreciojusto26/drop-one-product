@@ -50,6 +50,26 @@ function paidCheckout(overrides: Partial<SumUpCheckout> = {}): SumUpCheckout {
   };
 }
 
+describe('buildOrderInput — optional phone', () => {
+  it('omits phone entirely when the buyer left it blank', () => {
+    const input = buildOrderInput(session({ phone: '' }), cart(), 'REF123');
+    const shippingAddress = input.shippingAddress as { phone?: string };
+
+    // Shopify rejects '' where it accepts an omitted field — sending the
+    // empty string fails orderCreate for every buyer who skips the field.
+    expect(input.phone).toBeUndefined();
+    expect(shippingAddress.phone).toBeUndefined();
+  });
+
+  it('keeps the phone on both order and shippingAddress when supplied', () => {
+    const input = buildOrderInput(session({ phone: '+34600123456' }), cart(), 'REF123');
+    const shippingAddress = input.shippingAddress as { phone?: string };
+
+    expect(input.phone).toBe('+34600123456');
+    expect(shippingAddress.phone).toBe('+34600123456');
+  });
+});
+
 describe('buildOrderInput — task 7.3', () => {
   it('includes a fixed 21% VAT tax line extracted from the tax-inclusive total', () => {
     const input = buildOrderInput(session(), cart({ totalCents: 2000 }), 'REF123');
