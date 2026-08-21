@@ -169,6 +169,11 @@ const defaultPorts: SettlePorts = {
 };
 
 async function handleFailure(ports: SettlePorts, ref: string, error: string): Promise<SettleResult> {
+  // "Paid but no order" is the worst outcome this system can produce, and it
+  // was previously invisible: the reason went only to KV and to alertOps,
+  // which silently no-ops when ALERT_WEBHOOK_URL is unset. Without this line
+  // the runtime logs show a 500 with no cause.
+  console.error(`settleCheckout failed — ref ${ref}: ${error}`);
   const record = await ports.recordFailure(ref, error);
   await ports.alertOps({ ref, error, attempt: record.attempt });
   return record.attempt >= MAX_ATTEMPTS_BEFORE_FAILED
