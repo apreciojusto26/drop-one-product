@@ -48,6 +48,27 @@ describe('validateCheckoutForm — spec scenario: complete form enables payment'
   });
 });
 
+describe('validateCheckoutForm — phone is optional', () => {
+  it('passes when phone is blank', () => {
+    const form = completeForm();
+    form.phone = '';
+
+    expect(validateCheckoutForm(form).valid).toBe(true);
+  });
+
+  it('still rejects a malformed phone when one is supplied', () => {
+    const form = completeForm();
+    form.phone = 'not-a-phone';
+
+    const result = validateCheckoutForm(form);
+
+    expect(result.valid).toBe(false);
+    if (!result.valid) {
+      expect(result.errors.phone).toBeDefined();
+    }
+  });
+});
+
 describe('validateCheckoutForm — spec scenario: missing required field blocks payment', () => {
   it('fails when city is empty', () => {
     const form = completeForm();

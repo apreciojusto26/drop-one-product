@@ -16,6 +16,11 @@
   --color-grape-soft:   #A78BFA;
   --color-gold:        #FFB100;
   --color-gold-tint:   #F7EFD6;
+  /* Positive-outcome accent (free shipping, savings). 4.9:1 on white — AA for
+     the small bold text it is used on. Deliberately NOT grape: purple is the
+     brand/action colour, so a win reads as a win and not as a button. */
+  --color-success:      #15803D;
+  --color-success-tint: #E8F5EC;
   --color-surface:     #FFFFFF;
 
   --font-display: "Archivo Variable", ui-sans-serif, system-ui, sans-serif;

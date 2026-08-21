@@ -188,7 +188,7 @@ export function CartDrawer({ commerce }: CartDrawerProps) {
               )}
               <div className="flex items-center justify-between">
                 <dt className="text-steel">Envío</dt>
-                <dd className={`font-semibold ${hasFreeShipping ? 'text-grape' : 'text-steel'}`}>
+                <dd className={`font-semibold ${hasFreeShipping ? 'text-success' : 'text-steel'}`}>
                   {hasFreeShipping ? 'GRATIS' : 'Calculado al finalizar'}
                 </dd>
               </div>

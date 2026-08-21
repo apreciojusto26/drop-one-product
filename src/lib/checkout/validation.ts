@@ -60,7 +60,11 @@ export function validateCheckoutForm(data: CheckoutFormData): ValidationResult {
   if (!isValidEmail(data.email)) {
     errors.email = 'Introduce un email válido.';
   }
-  if (!isValidPhone(data.phone)) {
+  // Phone is OPTIONAL (checkout-friction pass 2026-08-21): still validated when
+  // supplied, never blocks payment when blank. Carriers use it for delivery
+  // notices, so the field stays prominent with a hint — flip it back by
+  // dropping the `.trim()` guard if fulfillment ever needs it hard-required.
+  if (data.phone.trim() && !isValidPhone(data.phone)) {
     errors.phone = 'Introduce un teléfono válido.';
   }
 

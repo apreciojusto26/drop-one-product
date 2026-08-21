@@ -27,14 +27,20 @@ const EMPTY_FORM: CheckoutFormData = {
   },
 };
 
+/**
+ * Drives focusFirstError() — MUST mirror the rendered top-to-bottom order or
+ * submit jumps the buyer to the wrong input. `address.countryCode` has no
+ * input of its own (Spain-only, static row) and stays last purely so a
+ * server-side rejection still resolves to a known field key.
+ */
 const FIELD_ORDER: CheckoutFormField[] = [
   'email',
-  'phone',
   'address.firstName',
   'address.lastName',
   'address.address1',
   'address.zip',
   'address.city',
+  'phone',
   'address.countryCode',
 ];
 
@@ -238,29 +244,32 @@ export function CheckoutForm({ commerce }: CheckoutFormProps) {
   return (
     <div className="xl:grid xl:grid-cols-[minmax(0,1fr)_21rem] xl:items-start xl:gap-10">
       <form onSubmit={preparePayment} className="min-w-0 space-y-5" noValidate>
-        <section className="rounded-card bg-white p-5 shadow-lift sm:p-6" aria-labelledby="checkout-contact-title">
-          <SectionHeading id="checkout-contact-title">Información</SectionHeading>
-          <div className="mt-4 space-y-3">
-            <Field id="checkout-email" label="Email" required placeholder="correo@ejemplo.com" type="email" autoComplete="email" inputMode="email" value={form.email} onChange={(value) => updateField('email', value)} error={fieldErrors.email} />
-            <Field id="checkout-phone" label="Teléfono" required placeholder="+34 600 000 000" type="tel" autoComplete="tel" inputMode="tel" value={form.phone} onChange={(value) => updateField('phone', value)} error={fieldErrors.phone} />
-          </div>
-        </section>
-
+        {/* Contact + shipping share ONE card: two stacked cards read as a longer
+            form than they are, and perceived length is what drives mobile
+            abandonment (checkout-friction pass 2026-08-21). */}
         <section className="rounded-card bg-white p-5 shadow-lift sm:p-6" aria-labelledby="checkout-shipping-title">
           <SectionHeading id="checkout-shipping-title">Datos de envío</SectionHeading>
           <div className="mt-4 space-y-3">
+            <Field id="checkout-email" label="Email" required placeholder="correo@ejemplo.com" type="email" autoComplete="email" inputMode="email" value={form.email} onChange={(value) => updateField('email', value)} error={fieldErrors.email} />
             <div className="grid grid-cols-1 gap-3 xs:grid-cols-2">
               <Field id="checkout-address-firstName" label="Nombre" required placeholder="Nombre" autoComplete="given-name" value={form.address.firstName} onChange={(value) => updateAddressField('firstName', value)} error={fieldErrors['address.firstName']} />
               <Field id="checkout-address-lastName" label="Apellidos" required placeholder="Apellidos" autoComplete="family-name" value={form.address.lastName} onChange={(value) => updateAddressField('lastName', value)} error={fieldErrors['address.lastName']} />
             </div>
             <Field id="checkout-address-address1" label="Dirección" required placeholder="Calle y número" autoComplete="street-address" value={form.address.address1} onChange={(value) => updateAddressField('address1', value)} error={fieldErrors['address.address1']} />
             <Field id="checkout-address-address2" label="Piso / puerta" optionalHint autoComplete="address-line2" value={form.address.address2} onChange={(value) => updateAddressField('address2', value)} />
-            <div className="grid grid-cols-1 gap-3 xs:grid-cols-[0.7fr_1fr_1fr]">
+            <div className="grid grid-cols-1 gap-3 xs:grid-cols-[0.7fr_1fr]">
               <Field id="checkout-address-zip" label="C.P." required placeholder="28001" autoComplete="postal-code" inputMode="numeric" value={form.address.zip} onChange={(value) => updateAddressField('zip', value)} error={fieldErrors['address.zip']} />
               <Field id="checkout-address-city" label="Ciudad" required placeholder="Madrid" autoComplete="address-level2" value={form.address.city} onChange={(value) => updateAddressField('city', value)} error={fieldErrors['address.city']} />
-              <Field id="checkout-address-provinceCode" label="Provincia" optionalHint placeholder="Madrid" autoComplete="address-level1" value={form.address.provinceCode} onChange={(value) => updateAddressField('provinceCode', value)} />
             </div>
-            <Field id="checkout-address-countryCode" label="País (código)" required placeholder="ES" autoComplete="country" value={form.address.countryCode} onChange={(value) => updateAddressField('countryCode', value.toUpperCase())} error={fieldErrors['address.countryCode']} />
+            {/* Spain-only storefront (flat 21% VAT in settle.ts, "Envío gratis a
+                España"). countryCode stays 'ES' in form state and is still
+                validated server-side — showing it as a static row removes an
+                input that asked buyers for an ISO code they don't know. */}
+            <p className="flex items-center gap-2 rounded-tile bg-graphite/[0.03] px-3 py-2.5 text-xs text-steel">
+              <svg viewBox={ICONS.truck.viewBox} className="size-3.5 shrink-0 text-grape" aria-hidden="true"><path fill="currentColor" d={ICONS.truck.path} /></svg>
+              Enviamos únicamente a <span className="font-semibold text-graphite">España</span>
+            </p>
+            <Field id="checkout-phone" label="Teléfono" optionalHint hint="Opcional — el transportista lo usa para avisarte de la entrega" placeholder="+34 600 000 000" type="tel" autoComplete="tel" inputMode="tel" value={form.phone} onChange={(value) => updateField('phone', value)} error={fieldErrors.phone} />
           </div>
           <div className="mt-4 flex flex-wrap gap-x-4 gap-y-2 text-xs font-medium text-steel">
             {hasFreeShipping && <TrustItem icon="truck">Envío gratis a España</TrustItem>}
@@ -318,7 +327,7 @@ function OrderSummary({ variantTitle, quantity, subtotalCents, discountCents, to
       </div>
       <dl className="space-y-2 pt-3">
         {discountCents > 0 && <><div className="flex justify-between gap-3"><dt className="text-steel">Subtotal</dt><dd className="tabular-nums text-graphite">{formatPrice(subtotalCents)}</dd></div><div className="flex justify-between gap-3"><dt className="text-steel">Descuento</dt><dd className="tabular-nums font-semibold text-gold">−{formatPrice(discountCents)}</dd></div></>}
-        <div className="flex justify-between gap-3"><dt className="text-steel">Envío</dt><dd className={hasFreeShipping ? 'font-semibold text-grape' : 'text-steel'}>{hasFreeShipping ? 'GRATIS' : 'Calculado al finalizar'}</dd></div>
+        <div className="flex justify-between gap-3"><dt className="text-steel">Envío</dt><dd className={hasFreeShipping ? 'font-semibold text-success' : 'text-steel'}>{hasFreeShipping ? 'GRATIS' : 'Calculado al finalizar'}</dd></div>
         <div className="flex justify-between gap-3 border-t border-graphite/10 pt-2"><dt className="font-display font-bold text-graphite">Total</dt><dd className="font-display text-lg font-extrabold tabular-nums text-graphite">{formatPrice(totalCents)}</dd></div>
       </dl>
     </div>
@@ -354,16 +363,18 @@ interface FieldProps {
   placeholder?: string;
   required?: boolean;
   optionalHint?: boolean;
+  /** Overrides the default "Opcional" caption — use it to say WHY a field helps. */
+  hint?: string;
   error?: string | undefined;
 }
 
-function Field({ id, label, value, onChange, type = 'text', autoComplete, inputMode, placeholder, required = false, optionalHint = false, error }: FieldProps) {
+function Field({ id, label, value, onChange, type = 'text', autoComplete, inputMode, placeholder, required = false, optionalHint = false, hint, error }: FieldProps) {
   const errorId = `${id}-error`;
   return (
     <div>
       <label htmlFor={id} className="mb-1.5 block text-xs font-semibold text-graphite">{label}{required && <span className="ml-0.5 text-red-600" aria-hidden="true">*</span>}</label>
       <input id={id} name={id.replace('checkout-', '')} type={type} value={value} onChange={(event) => onChange(event.target.value)} autoComplete={autoComplete} inputMode={inputMode} placeholder={placeholder} required={required} aria-required={required || undefined} aria-invalid={Boolean(error)} aria-describedby={error ? errorId : optionalHint ? `${id}-hint` : undefined} className="h-12 w-full rounded-tile border border-graphite/15 bg-white px-3 text-base text-graphite outline-none transition placeholder:text-steel/55 focus-visible:border-grape focus-visible:ring-2 focus-visible:ring-grape/20" />
-      {optionalHint && <p id={`${id}-hint`} className="mt-1 text-[0.6875rem] text-steel">Opcional</p>}
+      {optionalHint && <p id={`${id}-hint`} className="mt-1 text-[0.6875rem] text-steel">{hint ?? 'Opcional'}</p>}
       {error && <p id={errorId} className="mt-1 text-xs font-medium text-red-700" role="alert">{error}</p>}
     </div>
   );
