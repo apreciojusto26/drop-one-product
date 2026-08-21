@@ -10,7 +10,7 @@ export const product = {
   name: 'AstraVibe — Proyector de estrellas USB',
   tagline: 'El cielo estrellado, en tu habitación.',
   subtagline:
-    'Proyector de estrellas con 24 películas deslizables y luz nocturna: crea una atmósfera espacial mágica con un solo toque.',
+    'Proyector de estrellas con películas deslizables intercambiables y luz nocturna: crea una atmósfera espacial mágica con un solo toque.',
 
   commerce: {
     shopifyHandle:
@@ -49,7 +49,7 @@ export const product = {
     'Pago 100% seguro',
     '+120 reseñas de 5 estrellas',
     'Garantía de 30 días',
-    '24 películas deslizables',
+    'Hasta 24 películas deslizables',
   ],
 
   offer: {
@@ -62,8 +62,8 @@ export const product = {
     {
       id: 'escenas',
       icon: 'sparkle',
-      title: '24 escenas deslizables',
-      text: 'Desliza entre 24 películas de proyección y pasa de un cielo estrellado a la vía láctea en segundos.',
+      title: 'Escenas intercambiables',
+      text: 'Desliza entre las películas de proyección de tu versión (hasta 24) y pasa de un cielo estrellado a la vía láctea en segundos.',
     },
     {
       id: 'luz-nocturna',
@@ -85,7 +85,7 @@ export const product = {
     },
   ],
 
-  heroPills: ['24 películas deslizables', 'Encendido con toque', 'Pila incluida'],
+  heroPills: ['Películas intercambiables', 'Encendido con toque', 'Pila incluida'],
 
   specs: [
     { label: 'Modelo', value: 'AA1458' },
@@ -193,7 +193,7 @@ export const product = {
   ],
 
   comparison: [
-    { feature: '24 escenas de proyección deslizables', ours: true, rival: 'Fija, sin cambios' },
+    { feature: 'Escenas de proyección deslizables (hasta 24)', ours: true, rival: 'Fija, sin cambios' },
     { feature: 'Proyección de estrellas en techo y paredes', ours: true, rival: false },
     { feature: 'Doble función: proyector y luz nocturna', ours: true, rival: 'Solo luz' },
     { feature: 'Encendido con toque, sin cables', ours: true, rival: 'Requiere clavija' },
@@ -214,8 +214,13 @@ export const product = {
   },
 
   shipping: {
-    etaLabel: 'Envío de 10-20 días',
-    freeOverCents: 2900,
+    etaLabel: 'Envío de 8 días hábiles',
+    // 0 = free on EVERY order, no minimum — shipping cost and margin are
+    // already priced INTO the product, so there is nothing left to recover at
+    // checkout. Also keeps the summary consistent with the unconditional
+    // "Envío gratis a España" in trustTicker + TrustSignals; the old 2900
+    // threshold contradicted that copy on the 21 € variant (2026-08-21).
+    freeOverCents: 0,
   },
 
   ugc: [
