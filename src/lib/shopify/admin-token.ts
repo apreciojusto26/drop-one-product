@@ -57,10 +57,13 @@ async function fetchToken(domain: string, clientId: string, clientSecret: string
   }
 
   if (!response.ok) {
-    // 401 here almost always means the app is not installed on the store, or
-    // the secret was rotated — both are configuration, not transient faults.
+    // Shopify names the actual fault in the body ({"error":"invalid_client"},
+    // "invalid_request", …). Without it a 400 is indistinguishable from a 401
+    // and every cause looks the same. Truncated because this reaches the logs;
+    // an OAuth error body carries the reason, never the secret.
+    const detail = (await response.text().catch(() => '')).slice(0, 300);
     throw new ShopifyError(
-      `Admin token request returned HTTP ${response.status} — check the app is installed on the store and the client credentials are current`,
+      `Admin token request returned HTTP ${response.status} — ${detail || 'no response body'}`,
     );
   }
 
