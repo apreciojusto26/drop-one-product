@@ -21,7 +21,12 @@ export default defineConfig({
     // `assertEnv()` throws loud at call-time instead — mirrors
     // src/lib/shopify/client.ts's existing convention.
     schema: {
+      // Legacy static Admin token. Shopify stopped issuing these for apps
+      // created after 2026-01-01; when unset, admin-token.ts mints one via the
+      // client credentials grant using the two fields below.
       SHOPIFY_ADMIN_TOKEN: envField.string({ context: 'server', access: 'secret', optional: true }),
+      SHOPIFY_CLIENT_ID: envField.string({ context: 'server', access: 'secret', optional: true }),
+      SHOPIFY_CLIENT_SECRET: envField.string({ context: 'server', access: 'secret', optional: true }),
       SHOPIFY_ADMIN_API_VERSION: envField.string({ context: 'server', access: 'public', optional: true }),
       // Canonical public origin for payment redirects/webhooks. Server-only
       // prevents clients from influencing trusted SumUp callback URLs.

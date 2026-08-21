@@ -27,6 +27,21 @@ function getClient(): Redis {
   return client;
 }
 
+/**
+ * Admin API token minted via the client credentials grant. Shared across
+ * invocations so a burst of settle attempts costs ONE token request, not one
+ * each — TTL is supplied by the caller from Shopify's own `expires_in`.
+ */
+const ADMIN_TOKEN_KEY = 'shopify:admin_token';
+
+export async function getCachedAdminToken(): Promise<string | null> {
+  return (await getClient().get<string>(ADMIN_TOKEN_KEY)) ?? null;
+}
+
+export async function putCachedAdminToken(token: string, ttlSeconds: number): Promise<void> {
+  await getClient().set(ADMIN_TOKEN_KEY, token, { ex: ttlSeconds });
+}
+
 export async function putSession(ref: string, session: CheckoutSession): Promise<void> {
   await getClient().set(`sumup:sess:${ref}`, session, { ex: SESSION_TTL_SECONDS });
 }

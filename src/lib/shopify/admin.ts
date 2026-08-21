@@ -16,6 +16,7 @@
  * VAT line is schema-valid.
  */
 import { getSecret } from 'astro:env/server';
+import { getAdminToken } from '@/lib/shopify/admin-token';
 import { ShopifyError } from '@/lib/shopify/client';
 
 interface AdminEnv {
@@ -24,20 +25,25 @@ interface AdminEnv {
   version: string;
 }
 
-export function assertAdminEnv(): AdminEnv {
+/**
+ * Domain + API version only — the token is resolved separately by
+ * getAdminToken(), which may have to mint one over the network (Dev
+ * Dashboard apps issue no static token). Keeping them apart means a missing
+ * domain fails loudly without first burning a token request.
+ */
+export function assertAdminEnv(): Omit<AdminEnv, 'token'> {
   const domain = import.meta.env.PUBLIC_SHOPIFY_STORE_DOMAIN;
-  const token = getSecret('SHOPIFY_ADMIN_TOKEN');
   // Falls back to the Storefront API version per design's env table
   // ("defaults to the Storefront version") if SHOPIFY_ADMIN_API_VERSION is unset.
   const version = getSecret('SHOPIFY_ADMIN_API_VERSION') || import.meta.env.PUBLIC_SHOPIFY_API_VERSION;
 
-  if (!domain || !token || !version) {
+  if (!domain || !version) {
     throw new ShopifyError(
-      'Missing PUBLIC_SHOPIFY_STORE_DOMAIN / SHOPIFY_ADMIN_TOKEN / SHOPIFY_ADMIN_API_VERSION — server misconfigured',
+      'Missing PUBLIC_SHOPIFY_STORE_DOMAIN / SHOPIFY_ADMIN_API_VERSION — server misconfigured',
     );
   }
 
-  return { domain, token, version };
+  return { domain, version };
 }
 
 interface GraphQLResponse<T> {
@@ -47,7 +53,8 @@ interface GraphQLResponse<T> {
 
 /** POST a GraphQL document to the Admin API. Throws ShopifyError on any failure. */
 export async function admin<T>(query: string, variables?: Record<string, unknown>): Promise<T> {
-  const { domain, token, version } = assertAdminEnv();
+  const { domain, version } = assertAdminEnv();
+  const token = await getAdminToken();
   const url = `https://${domain}/admin/api/${version}/graphql.json`;
 
   let response: Response;
