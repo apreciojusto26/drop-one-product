@@ -6,7 +6,7 @@ import tailwindcss from '@tailwindcss/vite';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://cortto.example',
+  site: 'https://astravibe.bamzuk.com',
   // SSR is scoped to /checkout + /api/* only — src/pages/index.astro opts back
   // out via `export const prerender = true` and stays a static build artifact.
   output: 'server',
