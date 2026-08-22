@@ -44,9 +44,13 @@ const year = new Date().getFullYear();
   <Container>
     <div class="grid grid-cols-2 gap-8 md:grid-cols-4">
       <div>
-        <span class="font-display text-lg font-black tracking-tight text-bone">
+        <a
+          href="/"
+          aria-label={`${product.brand} — ir al inicio`}
+          class="font-display text-lg font-black tracking-tight text-bone transition hover:text-grape-soft"
+        >
           {product.brand}<span class="align-super text-[0.6em] text-grape">™</span>
-        </span>
+        </a>
         <p class="mt-2 leading-relaxed text-bone/50">
           Envío gratis a España<br />
           Garantía de {product.guarantee.days} días
