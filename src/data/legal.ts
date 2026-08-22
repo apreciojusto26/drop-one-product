@@ -17,8 +17,8 @@ export const legal = {
     holder: 'Daniel Longone',
     /** Nombre comercial con el que opera la tienda. */
     tradeName: 'Bamzuk',
-    /** ⚠️ PENDIENTE — NIF/DNI del titular. Obligatorio (LSSI-CE art. 10.1.a). */
-    taxId: 'PENDIENTE — completar NIF',
+    /** NIF/DNI del titular. Obligatorio (LSSI-CE art. 10.1.a). */
+    taxId: 'X9986124F',
     address: 'Calle la Iglesia, 7, Fariza de Sayago, 49213 Zamora, España',
     email: 'bamzukafiliados@gmail.com',
     phone: '+34 602 057 976',

@@ -1,6 +1,8 @@
 ---
 import '@/styles/global.css';
 import { getSecret } from 'astro:env/server';
+import { CONSENT_KEY } from '@/lib/consent';
+import { CookieBanner } from '@/components/islands/CookieBanner';
 
 interface Props {
   title: string;
@@ -13,6 +15,9 @@ const ogImage = new URL('/og-cover.png', Astro.site ?? Astro.url).toString();
 // Gated to prod so local/preview traffic doesn't pollute GA4/Clarity data.
 const gaId = import.meta.env.PROD ? getSecret('PUBLIC_GA_MEASUREMENT_ID') : undefined;
 const clarityId = import.meta.env.PROD ? getSecret('PUBLIC_CLARITY_PROJECT_ID') : undefined;
+// Shared with lib/consent.ts so the bootstrap and the banner can never read
+// and write different keys.
+const consentKey = CONSENT_KEY;
 ---
 
 <!doctype html>
@@ -34,41 +39,57 @@ const clarityId = import.meta.env.PROD ? getSecret('PUBLIC_CLARITY_PROJECT_ID') 
 
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
-    {gaId && (
-      <>
-        <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}></script>
-        <script is:inline define:vars={{ gaId }}>
-          window.dataLayer = window.dataLayer || [];
-          function gtag() {
-            dataLayer.push(arguments);
-          }
-          // define:vars wraps this script in an IIFE, so `gtag` is scoped to
-          // it — exposed explicitly so lib/analytics.ts can reach it.
-          window.gtag = gtag;
-          gtag('js', new Date());
-          gtag('config', gaId);
-        </script>
-      </>
-    )}
+    {/*
+      Analytics are NOT loaded here. They are injected by __loadAnalytics(),
+      which runs on first paint ONLY for a visitor who already consented, and
+      otherwise waits for the banner. Consent under LSSI-CE art. 22.2 must be
+      prior, so a <script src> in the head would be the infringement itself.
+    */}
+    {(gaId || clarityId) && (
+      <script is:inline define:vars={{ gaId, clarityId, consentKey }}>
+        window.__loadAnalytics = function () {
+          if (window.__analyticsLoaded) return;
+          window.__analyticsLoaded = true;
 
-    {clarityId && (
-      <script is:inline define:vars={{ clarityId }}>
-        (function (c, l, a, r, i, t, y) {
-          c[a] =
-            c[a] ||
-            function () {
-              (c[a].q = c[a].q || []).push(arguments);
+          if (gaId) {
+            window.dataLayer = window.dataLayer || [];
+            // Exposed on window so lib/analytics.ts can reach it — this
+            // script is wrapped in an IIFE by define:vars.
+            window.gtag = function () {
+              window.dataLayer.push(arguments);
             };
-          t = l.createElement(r);
-          t.async = 1;
-          t.src = 'https://www.clarity.ms/tag/' + i;
-          y = l.getElementsByTagName(r)[0];
-          y.parentNode.insertBefore(t, y);
-        })(window, document, 'clarity', 'script', clarityId);
+            window.gtag('js', new Date());
+            window.gtag('config', gaId);
+
+            var ga = document.createElement('script');
+            ga.async = true;
+            ga.src = 'https://www.googletagmanager.com/gtag/js?id=' + gaId;
+            document.head.appendChild(ga);
+          }
+
+          if (clarityId) {
+            window.clarity =
+              window.clarity ||
+              function () {
+                (window.clarity.q = window.clarity.q || []).push(arguments);
+              };
+            var cl = document.createElement('script');
+            cl.async = true;
+            cl.src = 'https://www.clarity.ms/tag/' + clarityId;
+            document.head.appendChild(cl);
+          }
+        };
+
+        try {
+          if (window.localStorage.getItem(consentKey) === 'granted') window.__loadAnalytics();
+        } catch (e) {
+          /* storage blocked — stay off until the banner is answered */
+        }
       </script>
     )}
   </head>
   <body>
     <slot />
+    <CookieBanner client:idle />
   </body>
 </html>
