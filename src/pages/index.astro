@@ -12,7 +12,6 @@ import ReviewsReel from '@/components/sections/10-reviews-reel.astro';
 import Comparison from '@/components/sections/11-comparison.astro';
 import Guarantee from '@/components/sections/12-guarantee.astro';
 import RealResults from '@/components/sections/13-real-results.astro';
-import ResultsGallery from '@/components/sections/13-results-gallery.astro';
 import SiteFooter from '@/components/sections/14-site-footer.astro';
 import StickyBar from '@/components/sections/15-sticky-bar.astro';
 import { CartDrawer } from '@/components/islands/CartDrawer';
@@ -50,7 +49,6 @@ const defaultVariant = commerce.variants.find((v) => v.id === commerce.defaultVa
   <ReviewsReel />
   <Guarantee />
   <Faq />
-  <ResultsGallery />
   <SiteFooter />
   <StickyBar />
   <CartDrawer client:load commerce={commerce} />
