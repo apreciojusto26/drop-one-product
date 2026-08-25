@@ -8,22 +8,22 @@ export const faq: FaqItem[] = [
       'Astra Vibe es un proyector de galaxias que proyecta estrellas y escenas espaciales sobre el techo o las paredes. Sus proyecciones ayudan a transformar visualmente una habitación y crear un ambiente decorativo con efecto de cielo estrellado.',
   },
   {
-    id: 'pilas',
-    question: '¿Cómo se alimenta el proyector Astra Vibe? ¿Incluye pilas?',
+    id: 'alimentacion',
+    question: '¿Cómo se alimenta el proyector Astra Vibe?',
     answer:
-      'Astra Vibe funciona con una pila botón que viene incluida. Se activa con un toque y no necesita estar conectado a un enchufe durante su uso.',
+      'Astra Vibe se alimenta por USB y el cable viene incluido. Puedes conectarlo a cualquier puerto USB: un cargador de móvil, un ordenador, una batería externa o la toma USB del coche. Se enciende con un toque, sin mando ni aplicación.',
   },
   {
     id: 'proyecciones',
     question: '¿Cómo se cambian las proyecciones de estrellas y galaxias?',
     answer:
-      'Las proyecciones se cambian utilizando las películas o slides deslizables incluidas con la versión elegida. Este proyector de estrellas y galaxias está disponible con 1, 6 o 24 slides, por lo que la cantidad de escenas depende de la variante seleccionada.',
+      'Las proyecciones se cambian utilizando las películas deslizables incluidas con la versión elegida. Este proyector de estrellas y galaxias está disponible con 1, 6 o 24 proyecciones, por lo que la cantidad de escenas depende de la variante seleccionada.',
   },
   {
-    id: 'slides',
-    question: '¿Qué son los slides y cuántos incluye cada versión?',
+    id: 'proyecciones',
+    question: '¿Qué son las proyecciones y cuántas incluye cada versión?',
     answer:
-      'Los slides son las películas deslizables que contienen cada escena de proyección: se insertan en el proyector y se cambian para pasar de un cielo estrellado a otra galaxia. La cantidad depende de la variante que elijas: la versión de 1 slide incluye una película aleatoria, la de 6 slides incluye 6 películas y la de 24 slides incluye las 24 películas a color.',
+      'Cada proyección es una película deslizable con una escena distinta: se inserta en el proyector y se cambia en segundos para pasar de un cielo estrellado a otra galaxia. La cantidad depende de la versión que elijas: la de 1 proyección incluye una película aleatoria, la de 6 proyecciones incluye 6 películas y la de 24 proyecciones incluye las 24 a color.',
   },
   {
     id: 'uso-oscuro',

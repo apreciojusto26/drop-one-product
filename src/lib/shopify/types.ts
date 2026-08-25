@@ -7,7 +7,14 @@
 
 export interface VariantOption {
   id: string; // gid://shopify/ProductVariant/...
-  title: string; // '24 Slides', 'Nightlight', '5 Slides A'
+  title: string; // customer-facing: '6 proyecciones' (see catalog.ts)
+  /**
+   * How many projection films the variant ships, parsed ONCE from Shopify's
+   * own title. Everything that used to match `/^24\s+slides?$/i` compares this
+   * instead: renaming the customer-facing copy can no longer silently break
+   * the default selection or the "Más elegido" badge.
+   */
+  projectionCount: number | null;
   optionValue: string; // selectedOptions[0].value ("Emitting Color")
   availableForSale: boolean;
   unitPriceCents: number; // PER-VARIANT — never assume uniform

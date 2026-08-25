@@ -25,6 +25,33 @@ interface ProductQueryResponse {
   } | null;
 }
 
+/**
+ * Shopify's own variant titles ("1 Random Slides", "6 Slides", "24 Slides")
+ * are supplier language. Buyers do not shop for "slides" — they shop for how
+ * many scenes the thing projects, so the count is parsed here and the visible
+ * title rewritten ONCE, at the boundary. Every surface that shows a variant
+ * (buy box, sticky bar, cart drawer, checkout summary) inherits it.
+ */
+export function parseProjectionCount(shopifyTitle: string): number | null {
+  const match = /^\s*(\d+)\b/.exec(shopifyTitle);
+  if (!match) return null;
+  const count = Number.parseInt(match[1]!, 10);
+  return Number.isFinite(count) && count > 0 ? count : null;
+}
+
+export function toCustomerTitle(shopifyTitle: string, count: number | null): string {
+  if (count === null) return shopifyTitle;
+  return `${count} ${count === 1 ? 'proyección' : 'proyecciones'}`;
+}
+
+/**
+ * The variant a buyer lands on. Preferring the middle option is deliberate:
+ * opening on the most expensive one reads as an upsell and depresses
+ * add-to-cart, while the cheapest anchors the product low. Falls back to
+ * Shopify's first available variant when the 6-film option is gone.
+ */
+const PREFERRED_DEFAULT_PROJECTIONS = 6;
+
 let memoizedFetch: Promise<ProductCommerce> | null = null;
 
 /**
@@ -69,11 +96,12 @@ async function fetchProductCommerce(): Promise<ProductCommerce> {
   const variants: VariantOption[] = variantNodes.map((node) => {
     const optionValue = node.selectedOptions[0]?.value ?? node.title;
     const imageIndex = node.image ? images.findIndex((img) => img.url === node.image!.url) : -1;
-    const customerTitle = /^1\s+random\s+slides?$/i.test(node.title.trim()) ? '1 Slide' : node.title;
+    const projectionCount = parseProjectionCount(node.title);
 
     return {
       id: node.id,
-      title: customerTitle,
+      title: toCustomerTitle(node.title, projectionCount),
+      projectionCount,
       optionValue,
       availableForSale: node.availableForSale,
       unitPriceCents: moneyToCents(node.price.amount),
@@ -82,8 +110,11 @@ async function fetchProductCommerce(): Promise<ProductCommerce> {
     };
   });
 
+  const preferredDefault = variants.find(
+    (v) => v.availableForSale && v.projectionCount === PREFERRED_DEFAULT_PROJECTIONS,
+  );
   const firstAvailable = variants.find((v) => v.availableForSale);
-  const defaultVariantId = firstAvailable ? firstAvailable.id : variants[0]!.id;
+  const defaultVariantId = (preferredDefault ?? firstAvailable ?? variants[0]!).id;
 
   return {
     handle: product.handle,

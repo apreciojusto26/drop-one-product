@@ -9,7 +9,7 @@ interface VariantPickerProps {
 }
 
 /**
- * Compact pill group for the customer-facing slide configurations. Reuses the
+ * Compact pill group for the projection-count options. Reuses the
  * buy box's existing accessible radio pattern: role="radiogroup" + <label>
  * wrapping an sr-only native radio + has-[:checked]:/peer-checked: CSS, so
  * keyboard/arrow semantics come free.
@@ -24,7 +24,7 @@ export function VariantPicker({ variants, selectedId, onSelect, label }: Variant
         {variants.map((variant) => {
           const checked = variant.id === selectedId;
           const disabled = !variant.availableForSale;
-          const isPopular = /^24\s+slides?$/i.test(variant.title.trim());
+          const isPopular = variant.projectionCount === 6;
 
           return (
             <label
@@ -35,7 +35,7 @@ export function VariantPicker({ variants, selectedId, onSelect, label }: Variant
             >
               {isPopular && (
                 <span className="absolute -top-2.5 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-pill bg-amber-600 px-2 py-0.5 text-[0.5625rem] font-black uppercase tracking-wider text-white shadow-card sm:text-[0.625rem]">
-                  Más popular
+                  Más elegido
                 </span>
               )}
               <input

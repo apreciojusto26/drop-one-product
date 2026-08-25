@@ -6,7 +6,8 @@ import type { PricePack } from '@/types/content';
 
 const variant: VariantOption = {
   id: 'gid://shopify/ProductVariant/1',
-  title: '24 Slides',
+  title: '24 proyecciones',
+  projectionCount: 24,
   optionValue: '24 Slides',
   availableForSale: true,
   unitPriceCents: 999,

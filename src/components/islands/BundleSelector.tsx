@@ -83,15 +83,10 @@ export function BundleSelector({
   }, [cartError, cart, pack, variant, projection, errors]);
 
   const giftProgress = Math.min(1, pack.units / giftThresholdUnits);
-  const slideVariants = commerce.variants
-    .filter((item) => /^(1|6|24)\s+slides?$/i.test(item.title.trim()))
-    .sort((a, b) => {
-      const order = { 1: 0, 6: 1, 24: 2 } as const;
-      const aSlides = Number.parseInt(a.title, 10) as keyof typeof order;
-      const bSlides = Number.parseInt(b.title, 10) as keyof typeof order;
-      return order[aSlides] - order[bSlides];
-    });
-  const visibleVariants = slideVariants.length > 0 ? slideVariants : commerce.variants;
+  const projectionVariants = commerce.variants
+    .filter((item) => item.projectionCount !== null)
+    .sort((a, b) => a.projectionCount! - b.projectionCount!);
+  const visibleVariants = projectionVariants.length > 0 ? projectionVariants : commerce.variants;
   const oneUnitPack = packs.find((item) => item.units + item.freeUnits === 1);
   const oneUnitPriceCents = oneUnitPack
     ? projectPack(variant, oneUnitPack, bundleOfferActive).priceCents
@@ -99,10 +94,6 @@ export function BundleSelector({
 
   return (
     <div className="space-y-4">
-      {/^24\s+slides?$/i.test(variant.title.trim()) && (
-        <p className="text-xs font-semibold text-red-600">Quedan pocas piezas</p>
-      )}
-
       <VariantPicker
         variants={visibleVariants}
         selectedId={variant.id}

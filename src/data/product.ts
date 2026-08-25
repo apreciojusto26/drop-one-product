@@ -10,7 +10,7 @@ export const product = {
   name: 'AstraVibe — Proyector de estrellas USB',
   tagline: 'El cielo estrellado, en tu habitación.',
   subtagline:
-    'Proyector de estrellas con películas deslizables intercambiables y luz nocturna: crea una atmósfera espacial mágica con un solo toque.',
+    'Proyector de estrellas con proyecciones intercambiables y luz nocturna: cambia la escena y transforma tu habitación en segundos.',
 
   commerce: {
     shopifyHandle:
@@ -42,14 +42,14 @@ export const product = {
     1: 1,
   },
 
-  badges: ['Envío 24-48h', 'Pila incluida', 'Garantía 30 días'],
+  badges: ['Envío gratis', 'Cable USB incluido', 'Garantía 30 días'],
 
   trustTicker: [
     'Envío gratis a España',
     'Pago 100% seguro',
     '+120 reseñas de 5 estrellas',
     'Garantía de 30 días',
-    'Hasta 24 películas deslizables',
+    'Hasta 24 proyecciones intercambiables',
   ],
 
   offer: {
@@ -75,7 +75,7 @@ export const product = {
       id: 'un-toque',
       icon: 'check',
       title: 'Se enciende con un toque',
-      text: 'Sin enchufe ni apps: toca y la proyección arranca al instante, con pila botón incluida.',
+      text: 'Sin apps ni mando: conéctalo por USB, toca, y la proyección arranca al instante.',
     },
     {
       id: 'abs-resistente',
@@ -85,7 +85,7 @@ export const product = {
     },
   ],
 
-  heroPills: ['Películas intercambiables', 'Encendido con toque', 'Pila incluida'],
+  heroPills: ['Proyecciones intercambiables', 'Encendido con toque', 'Se conecta por USB'],
 
   specs: [
     { label: 'Modelo', value: 'AA1458' },
@@ -93,7 +93,7 @@ export const product = {
     { label: 'Longitud', value: '30 cm' },
     { label: 'Flujo luminoso', value: '249–2000 lúmenes' },
     { label: 'Potencia', value: '0–5 W' },
-    { label: 'Alimentación', value: 'Pila botón (incluida)' },
+    { label: 'Alimentación', value: 'USB (cable incluido)' },
     { label: 'Activación', value: 'Con toque' },
   ],
 
@@ -161,7 +161,7 @@ export const product = {
     {
       step: 1,
       title: 'Elige tu proyección',
-      text: 'Escoge entre las versiones de 1, 6 o 24 películas de proyección y encuentra el ambiente que más te guste.',
+      text: 'Escoge entre las versiones de 1, 6 o 24 proyecciones y encuentra el ambiente que más te guste.',
       media: {
         asset: 'step-01',
         alt: 'Cielo colorido proyectado por AstraVibe con efecto vía láctea y nebulosa',
@@ -196,9 +196,9 @@ export const product = {
     { feature: 'Escenas de proyección deslizables (hasta 24)', ours: true, rival: 'Fija, sin cambios' },
     { feature: 'Proyección de estrellas en techo y paredes', ours: true, rival: false },
     { feature: 'Doble función: proyector y luz nocturna', ours: true, rival: 'Solo luz' },
-    { feature: 'Encendido con toque, sin cables', ours: true, rival: 'Requiere clavija' },
+    { feature: 'Encendido con toque, sin mando ni app', ours: true, rival: 'Requiere mando' },
     { feature: 'Portátil: hogar, coche y dormitorios', ours: true, rival: 'Fija en un lugar' },
-    { feature: 'Pila botón incluida', ours: true, rival: false },
+    { feature: 'Alimentación por USB, cable incluido', ours: true, rival: false },
     { feature: 'Material ABS resistente', ours: true, rival: true },
   ],
 
