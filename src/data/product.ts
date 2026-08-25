@@ -192,6 +192,13 @@ export const product = {
       ratio: '9/16',
     },
     {
+      asset: 'video-05',
+      kind: 'video',
+      poster: 'video-05-poster',
+      alt: 'AstraVibe en la mano mostrando su cable USB y el botón táctil',
+      ratio: '9/16',
+    },
+    {
       asset: 'gallery-09',
       alt: 'Manos sosteniendo la caja de AstraVibe al aire libre, con el proyector y el cable USB impresos en el envase',
       ratio: '9/16',
@@ -199,6 +206,13 @@ export const product = {
     {
       asset: 'gallery-08',
       alt: 'Proyección de un planeta con bandas naranjas sobre una pared oscura',
+      ratio: '9/16',
+    },
+    {
+      asset: 'video-04',
+      kind: 'video',
+      poster: 'video-04-poster',
+      alt: 'AstraVibe encendido en modo luz nocturna iluminando una habitación',
       ratio: '9/16',
     },
     {
