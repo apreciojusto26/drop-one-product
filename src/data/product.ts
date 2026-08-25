@@ -158,27 +158,13 @@ export const product = {
   ],
 
   /**
-   * Clips appended AFTER the Shopify catalogue images in the hero carousel.
-   * Only video lives here: the still photos belong to the marquee below
-   * (`ugcStrip`), and a marquee cannot hold video — it repeats every item
-   * several times, so ten <video> elements would decode at once.
+   * Own media appended AFTER the Shopify catalogue images in the hero
+   * carousel. Empty on purpose: the photos and both clips live in the
+   * scrolling strip below (`ugcStrip`), so the hero is the catalogue only.
+   * The carousel still renders video — add an entry with kind: 'video' and a
+   * poster to put one back.
    */
-  heroExtras: [
-    {
-      asset: 'video-05',
-      kind: 'video',
-      poster: 'video-05-poster',
-      alt: 'AstraVibe en la mano mostrando su cable USB y el botón táctil',
-      ratio: '9/16',
-    },
-    {
-      asset: 'video-04',
-      kind: 'video',
-      poster: 'video-04-poster',
-      alt: 'AstraVibe encendido en modo luz nocturna iluminando una habitación',
-      ratio: '9/16',
-    },
-  ],
+  heroExtras: [],
 
   /**
    * The scrolling strip. Real photographs first — they are the proof — then
