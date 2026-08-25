@@ -1,5 +1,6 @@
 import { getImage } from 'astro:assets';
 import { images } from '@/data/images';
+import { videos } from '@/data/videos';
 import type { MediaRef, ResolvedImage } from '@/types/content';
 import type { ProductCommerce } from '@/lib/shopify/types';
 
@@ -9,6 +10,25 @@ import type { ProductCommerce } from '@/lib/shopify/types';
  * before passing props down to a React island.
  */
 export async function resolveMedia(media: MediaRef, id: string): Promise<ResolvedImage> {
+  // Videos bypass astro:assets entirely — it optimizes images, not MP4s — and
+  // resolve to their hashed static URL plus a poster frame.
+  if (media.kind === 'video' && media.asset) {
+    const src = videos[media.asset];
+    if (src) {
+      return {
+        id,
+        src,
+        width: 0,
+        height: 0,
+        alt: media.alt,
+        ratio: media.ratio,
+        placeholder: false,
+        kind: 'video',
+        poster: media.poster ? (images[media.poster]?.src ?? videos[media.poster]) : undefined,
+      };
+    }
+  }
+
   const asset = media.asset ? images[media.asset] : null;
 
   if (!asset) {

@@ -7,10 +7,15 @@ import { resolveMediaList, resolveShopifyImages } from '@/lib/resolve-media';
 
 const commerce = await getProductCommerce();
 
-const resolvedImages =
+const catalogueImages =
   commerce.images.length > 0
     ? resolveShopifyImages(commerce.images, 'gallery')
     : await resolveMediaList(product.gallery, 'gallery');
+
+// Own photos and clips go last: the Shopify catalogue shots are the clean
+// studio ones a buyer expects first, and these are the proof shots.
+const extras = await resolveMediaList([...product.heroExtras], 'extra');
+const resolvedImages = [...catalogueImages, ...extras];
 ---
 
 <section class="min-w-0 bg-white pb-6 pt-0">

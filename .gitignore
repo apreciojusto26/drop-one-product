@@ -23,3 +23,9 @@ pnpm-debug.log*
 # jetbrains setting folder
 .idea/
 .vercel
+
+# Masters de cámara sin procesar (public/img/Galeria/IMG_*).
+# Pesan ~103 MB y public/ se despliega tal cual: subirlos serviría un .mov de
+# 87 MB a cada visitante. Las versiones optimizadas viven en
+# src/assets/product/ y pasan por astro:assets.
+public/img/Galeria/IMG_*

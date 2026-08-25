@@ -118,6 +118,21 @@ export function Lightbox({ images, index, onClose, onNavigate, triggerRef }: Lig
       <div className="relative max-h-[80vh] w-full overflow-hidden rounded-card motion-safe:transition-transform md:max-w-2xl">
         {image.placeholder ? (
           <PlaceholderShot ratio={image.ratio} alt={image.alt} tone="graphite" rounded="rounded-card" />
+        ) : image.kind === 'video' ? (
+          // Controls appear here but not in the carousel: at full size the
+          // viewer chose to look at this, so let them scrub and replay.
+          <video
+            key={image.id}
+            src={image.src}
+            poster={image.poster}
+            aria-label={image.alt}
+            muted
+            loop
+            playsInline
+            autoPlay
+            controls
+            className="h-full w-full object-contain"
+          />
         ) : (
           <img
             src={image.src}

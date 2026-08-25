@@ -42,6 +42,21 @@ export function HeroCarousel({ images }: HeroCarouselProps) {
               rounded="rounded-none md:rounded-card"
               className="w-full"
             />
+          ) : active.kind === 'video' ? (
+            // key forces a fresh element per slide: reusing one <video> across
+            // sources leaves the previous frame painted until the next decodes.
+            <video
+              key={active.id}
+              src={active.src}
+              poster={active.poster}
+              aria-label={active.alt}
+              muted
+              loop
+              playsInline
+              autoPlay
+              preload="metadata"
+              className="aspect-square w-full rounded-none object-cover md:rounded-card"
+            />
           ) : (
             <img
               src={active.src}

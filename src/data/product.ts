@@ -157,6 +157,43 @@ export const product = {
     },
   ],
 
+  /**
+   * Own photos and clips appended AFTER the Shopify catalogue images in the
+   * hero carousel. Kept separate from `gallery` (the fallback list used when
+   * Shopify returns nothing) so the two never fight over the same slot.
+   */
+  heroExtras: [
+    {
+      asset: 'gallery-07',
+      alt: 'Mano sosteniendo AstraVibe mientras cambia la película de proyección, con el resto de proyecciones alrededor',
+      ratio: '9/16',
+    },
+    {
+      asset: 'video-05',
+      kind: 'video',
+      poster: 'video-05-poster',
+      alt: 'AstraVibe en la mano mostrando su cable USB y el botón táctil',
+      ratio: '9/16',
+    },
+    {
+      asset: 'gallery-08',
+      alt: 'Proyección de un planeta con bandas naranjas sobre una pared oscura',
+      ratio: '9/16',
+    },
+    {
+      asset: 'video-04',
+      kind: 'video',
+      poster: 'video-04-poster',
+      alt: 'AstraVibe encendido en modo luz nocturna iluminando una habitación',
+      ratio: '9/16',
+    },
+    {
+      asset: 'gallery-06',
+      alt: 'Proyección de una ballena entre estrellas sobre una superficie oscura',
+      ratio: '9/16',
+    },
+  ],
+
   steps: [
     {
       step: 1,

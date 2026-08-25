@@ -46,6 +46,14 @@ export interface ResolvedImage {
   alt: string;
   ratio: AspectRatio;
   placeholder: boolean;
+  /** 'video' makes carousel/lightbox render <video> instead of <img>. */
+  kind?: 'image' | 'video';
+  /**
+   * Frame shown before a video can play — without it the slide is a black box.
+   * Explicitly `| undefined`: exactOptionalPropertyTypes is on, so a resolver
+   * that computes "maybe a poster" cannot assign to a bare optional.
+   */
+  poster?: string | undefined;
 }
 
 /**
@@ -138,6 +146,8 @@ export interface ProductContent {
   specs: SpecItem[];
   packs: PricePack[];
   gallery: GalleryImage[];
+  /** Own photos/clips appended after the Shopify catalogue shots in the hero. */
+  heroExtras: MediaRef[];
   steps: HowToStep[]; // exactly 3, uses the REAL photos
   comparison: ComparisonRow[];
   guarantee: Guarantee;
