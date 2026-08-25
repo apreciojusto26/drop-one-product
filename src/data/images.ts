@@ -7,6 +7,10 @@ import gallery05 from '@/assets/product/gallery-05.jpg';
 import gallery06 from '@/assets/product/gallery-06.jpg';
 import gallery07 from '@/assets/product/gallery-07.jpg';
 import gallery08 from '@/assets/product/gallery-08.jpg';
+import gallery09 from '@/assets/product/gallery-09.jpg';
+import gallery10 from '@/assets/product/gallery-10.jpg';
+import gallery11 from '@/assets/product/gallery-11.jpg';
+import gallery12 from '@/assets/product/gallery-12.jpg';
 import video04Poster from '@/assets/product/video-04-poster.jpg';
 import video05Poster from '@/assets/product/video-05-poster.jpg';
 import ugc01 from '@/assets/product/ugc-01.jpg';
@@ -24,6 +28,10 @@ export const images: Record<string, ImageMetadata> = {
   'gallery-06': gallery06,
   'gallery-07': gallery07,
   'gallery-08': gallery08,
+  'gallery-09': gallery09,
+  'gallery-10': gallery10,
+  'gallery-11': gallery11,
+  'gallery-12': gallery12,
   'video-04-poster': video04Poster,
   'video-05-poster': video05Poster,
   'ugc-01': ugc01,

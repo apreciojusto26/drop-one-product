@@ -188,8 +188,31 @@ export const product = {
       ratio: '9/16',
     },
     {
+      asset: 'gallery-09',
+      alt: 'Manos sosteniendo la caja de AstraVibe al aire libre, con el proyector y el cable USB impresos en el envase',
+      ratio: '9/16',
+    },
+    {
       asset: 'gallery-06',
       alt: 'Proyección de una ballena entre estrellas sobre una superficie oscura',
+      ratio: '9/16',
+    },
+    // Las tres siguientes son imágenes generadas, no fotografías del producto
+    // real. Van al final a propósito: las reales son la prueba, estas son
+    // ilustración. Ver la nota de riesgo en gallery-11 y gallery-12.
+    {
+      asset: 'gallery-10',
+      alt: 'AstraVibe apagado sobre una mesa de madera con su cuello flexible y el conector USB a la vista',
+      ratio: '9/16',
+    },
+    {
+      asset: 'gallery-11',
+      alt: 'Habitación infantil a oscuras con una ballena proyectada en el techo mientras dos niños la miran desde la cama',
+      ratio: '9/16',
+    },
+    {
+      asset: 'gallery-12',
+      alt: 'Mano encendiendo AstraVibe conectado a un adaptador USB junto a una mesita',
       ratio: '9/16',
     },
   ],
