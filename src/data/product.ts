@@ -158,26 +158,17 @@ export const product = {
   ],
 
   /**
-   * Own photos and clips appended AFTER the Shopify catalogue images in the
-   * hero carousel. Kept separate from `gallery` (the fallback list used when
-   * Shopify returns nothing) so the two never fight over the same slot.
+   * Clips appended AFTER the Shopify catalogue images in the hero carousel.
+   * Only video lives here: the still photos belong to the marquee below
+   * (`ugcStrip`), and a marquee cannot hold video — it repeats every item
+   * several times, so ten <video> elements would decode at once.
    */
   heroExtras: [
-    {
-      asset: 'gallery-07',
-      alt: 'Mano sosteniendo AstraVibe mientras cambia la película de proyección, con el resto de proyecciones alrededor',
-      ratio: '9/16',
-    },
     {
       asset: 'video-05',
       kind: 'video',
       poster: 'video-05-poster',
       alt: 'AstraVibe en la mano mostrando su cable USB y el botón táctil',
-      ratio: '9/16',
-    },
-    {
-      asset: 'gallery-08',
-      alt: 'Proyección de un planeta con bandas naranjas sobre una pared oscura',
       ratio: '9/16',
     },
     {
@@ -187,9 +178,27 @@ export const product = {
       alt: 'AstraVibe encendido en modo luz nocturna iluminando una habitación',
       ratio: '9/16',
     },
+  ],
+
+  /**
+   * The scrolling strip. Real photographs first — they are the proof — then
+   * the three generated illustrations. gallery-11 and gallery-12 are marked
+   * because they misrepresent the product; see the note in each.
+   */
+  ugcStrip: [
+    {
+      asset: 'gallery-07',
+      alt: 'Mano sosteniendo AstraVibe mientras cambia la película de proyección, con el resto de proyecciones alrededor',
+      ratio: '9/16',
+    },
     {
       asset: 'gallery-09',
       alt: 'Manos sosteniendo la caja de AstraVibe al aire libre, con el proyector y el cable USB impresos en el envase',
+      ratio: '9/16',
+    },
+    {
+      asset: 'gallery-08',
+      alt: 'Proyección de un planeta con bandas naranjas sobre una pared oscura',
       ratio: '9/16',
     },
     {
@@ -197,19 +206,20 @@ export const product = {
       alt: 'Proyección de una ballena entre estrellas sobre una superficie oscura',
       ratio: '9/16',
     },
-    // Las tres siguientes son imágenes generadas, no fotografías del producto
-    // real. Van al final a propósito: las reales son la prueba, estas son
-    // ilustración. Ver la nota de riesgo en gallery-11 y gallery-12.
+    // Generadas, no fotografías del producto real.
     {
       asset: 'gallery-10',
       alt: 'AstraVibe apagado sobre una mesa de madera con su cuello flexible y el conector USB a la vista',
       ratio: '9/16',
     },
+    // Muestra una proyección mucho mayor y más nítida de la que el producto
+    // consigue realmente (comparar con gallery-06, que es una proyección real).
     {
       asset: 'gallery-11',
       alt: 'Habitación infantil a oscuras con una ballena proyectada en el techo mientras dos niños la miran desde la cama',
       ratio: '9/16',
     },
+    // Renderiza el cuerpo en gris; el producto que se envía es blanco.
     {
       asset: 'gallery-12',
       alt: 'Mano encendiendo AstraVibe conectado a un adaptador USB junto a una mesita',

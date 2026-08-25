@@ -1,32 +1,25 @@
 ---
-const galleryImages = [
-  {
-    src: '/img/Galeria/Removing_hand_from_product_image_202608190134.jpeg',
-    alt: 'Astra Vibe sobre una mesa con su conexión USB',
-  },
-  {
-    src: '/img/Galeria/Projecting_design_onto_child_room_202608190141.jpeg',
-    alt: 'Proyección de una ballena y estrellas en el techo de una habitación infantil',
-  },
-  {
-    src: '/img/Galeria/Hands_holding_starry_box_2K_202608190126.jpeg',
-    alt: 'Caja de Astra Vibe sostenida con las manos en un parque',
-  },
-  {
-    src: '/img/Galeria/Requesting_realistic_images_with…_2K_202608190137.jpeg',
-    alt: 'Detalle de Astra Vibe encendido con control táctil',
-  },
-];
+import { Image } from 'astro:assets';
+import { images } from '@/data/images';
+import { product } from '@/data/product';
 
-// Repeat the complete 1 → 2 → 3 → 4 sequence so boundaries never place the
-// same image beside itself, while each identical half still covers wide screens.
-const marqueeTrackImages = [
-  ...galleryImages,
-  ...galleryImages,
-  ...galleryImages,
-  ...galleryImages,
-  ...galleryImages,
-];
+/**
+ * Reads from product.ugcStrip and goes through astro:assets, so the strip
+ * gets WebP + a real srcset. It previously pointed at raw /public paths,
+ * which skips optimization entirely, and declared 1536x2752 for files that
+ * are actually 768x1376 — a wrong intrinsic size makes the browser reserve
+ * the wrong space and shifts the layout once the real image lands.
+ */
+// flatMap rather than map+filter: a type predicate would have to widen `alt`,
+// which `as const satisfies Product` narrows to a literal union.
+const strip = product.ugcStrip.flatMap((media) => {
+  const asset = media.asset ? images[media.asset] : null;
+  return asset ? [{ asset, alt: media.alt }] : [];
+});
+
+// Two passes are enough to cover a wide screen now that the strip holds seven
+// distinct photos instead of four; repeating more only multiplies decode work.
+const marqueeTrackImages = [...strip, ...strip];
 ---
 
 <section class="overflow-hidden bg-white py-8">
@@ -34,14 +27,14 @@ const marqueeTrackImages = [
     <div class="flex w-max animate-[marquee_94s_linear_infinite] motion-reduce:animate-none">
       <div class="flex gap-3 pr-3">
         {
-          marqueeTrackImages.map((image) => (
+          marqueeTrackImages.map((image, index) => (
             <div class="w-[42vw] max-w-[11rem] shrink-0 lg:max-w-[14rem]">
-              <img
-                src={image.src}
+              <Image
+                src={image.asset}
                 alt={image.alt}
-                width="1536"
-                height="2752"
-                loading="eager"
+                widths={[176, 224, 448]}
+                sizes="(min-width: 1024px) 14rem, 42vw"
+                loading={index < 4 ? 'eager' : 'lazy'}
                 decoding="async"
                 class="aspect-[9/16] w-full rounded-tile object-cover"
               />
@@ -54,11 +47,11 @@ const marqueeTrackImages = [
         {
           marqueeTrackImages.map((image) => (
             <div class="w-[42vw] max-w-[11rem] shrink-0 lg:max-w-[14rem]">
-              <img
-                src={image.src}
+              <Image
+                src={image.asset}
                 alt=""
-                width="1536"
-                height="2752"
+                widths={[176, 224, 448]}
+                sizes="(min-width: 1024px) 14rem, 42vw"
                 loading="lazy"
                 decoding="async"
                 class="aspect-[9/16] w-full rounded-tile object-cover"

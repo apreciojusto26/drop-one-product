@@ -146,8 +146,10 @@ export interface ProductContent {
   specs: SpecItem[];
   packs: PricePack[];
   gallery: GalleryImage[];
-  /** Own photos/clips appended after the Shopify catalogue shots in the hero. */
+  /** Own clips appended after the Shopify catalogue shots in the hero. */
   heroExtras: MediaRef[];
+  /** Still photos for the scrolling marquee (09-ugc-strip). */
+  ugcStrip: MediaRef[];
   steps: HowToStep[]; // exactly 3, uses the REAL photos
   comparison: ComparisonRow[];
   guarantee: Guarantee;
