@@ -8,6 +8,11 @@
 import { Redis } from '@upstash/redis';
 import { getSecret } from 'astro:env/server';
 import type { CheckoutSession } from '@/lib/sumup/types';
+import {
+  DIAGNOSTICS_MAX_EVENTS,
+  DIAGNOSTICS_TTL_SECONDS,
+  type DiagnosticEventRecord,
+} from '@/lib/telemetry/events';
 
 const SESSION_TTL_SECONDS = 60 * 60 * 24; // 24h
 const LOCK_TTL_SECONDS = 60;
@@ -25,6 +30,28 @@ function getClient(): Redis {
 
   client = new Redis({ url, token });
   return client;
+}
+
+/**
+ * Checkout diagnostics, one Redis list per correlation id. Separate keyspace
+ * (`diag:`) and a shorter TTL than anything payment-related: these entries are
+ * disposable debugging aid, not part of the order record.
+ */
+export async function appendDiagnosticEvent(dsid: string, record: DiagnosticEventRecord): Promise<void> {
+  const key = `diag:${dsid}`;
+  const client = getClient();
+  const length = await client.rpush(key, JSON.stringify(record));
+  // Trim BEFORE expiring so a flood cannot grow the list unbounded between
+  // calls; keeps the newest N and drops the oldest.
+  if (length > DIAGNOSTICS_MAX_EVENTS) {
+    await client.ltrim(key, -DIAGNOSTICS_MAX_EVENTS, -1);
+  }
+  await client.expire(key, DIAGNOSTICS_TTL_SECONDS);
+}
+
+export async function getDiagnosticEvents(dsid: string): Promise<DiagnosticEventRecord[]> {
+  const raw = await getClient().lrange<DiagnosticEventRecord | string>(`diag:${dsid}`, 0, -1);
+  return raw.map((entry) => (typeof entry === 'string' ? (JSON.parse(entry) as DiagnosticEventRecord) : entry));
 }
 
 /**

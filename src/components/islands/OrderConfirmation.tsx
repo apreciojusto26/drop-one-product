@@ -3,6 +3,7 @@ import { $cart, clearCart } from '@/stores/cart';
 import { centsToUnits, trackEvent } from '@/lib/analytics';
 import { product } from '@/data/product';
 import { ICONS } from '@/lib/icons';
+import { trackCheckoutEvent } from '@/lib/telemetry/client';
 
 interface OrderConfirmationProps {
   // NOT named "ref" — React's createElement strips a prop literally named
@@ -34,6 +35,15 @@ const MAX_ATTEMPTS = 5;
 export function OrderConfirmation({ paymentRef }: OrderConfirmationProps) {
   const [state, setState] = useState<ViewState>(paymentRef ? { kind: 'polling' } : { kind: 'missing-ref' });
   const clearedCart = useRef(false);
+
+  // Closes the trail: reaching this page proves the buyer came back from the
+  // widget on the same origin.
+  useEffect(() => {
+    trackCheckoutEvent('checkout_thankyou_loaded', {
+      phase: 'gracias',
+      ...(paymentRef ? { ref: paymentRef } : { detail: 'missing-ref' }),
+    });
+  }, [paymentRef]);
 
   useEffect(() => {
     if (!paymentRef) return;

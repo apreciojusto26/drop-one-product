@@ -6,6 +6,8 @@ import { formatPrice } from '@/lib/format';
 import { ICONS } from '@/lib/icons';
 import { validateCheckoutForm, type CheckoutFormData, type CheckoutFormField } from '@/lib/checkout/validation';
 import type { ProductCommerce } from '@/lib/shopify/types';
+import { trackCheckoutEvent } from '@/lib/telemetry/client';
+import type { CheckoutEvent } from '@/lib/telemetry/events';
 
 interface CheckoutFormProps { commerce: ProductCommerce }
 
@@ -64,6 +66,14 @@ declare global {
         id: string;
         onResponse: (type: SumUpResponseType, body: unknown) => void;
         googlePay?: { merchantId: string; merchantName: string };
+        /** Fires once the widget itself is ready. Telemetry only. */
+        onLoad?: () => void;
+        /**
+         * Fires with the methods SumUp resolved for this checkout. Returning
+         * an array FILTERS what renders, so the handler below is a strict
+         * pass-through — see the comment at the call site.
+         */
+        onPaymentMethodsLoad?: (methods?: unknown) => unknown;
       }) => SumUpCardInstance;
     };
   }
@@ -98,6 +108,12 @@ export function CheckoutForm({ commerce }: CheckoutFormProps) {
   const [retryToken, setRetryToken] = useState(0);
   const widgetInstance = useRef<SumUpCardInstance | undefined>(undefined);
   const paymentRef = useRef<HTMLElement>(null);
+
+  // Fires once per mount. Paired with checkout_navigation_started it answers
+  // the first question: did this browser reach /checkout at all?
+  useEffect(() => {
+    trackCheckoutEvent('checkout_page_loaded', { phase: 'form' });
+  }, []);
 
   const validation = useMemo(() => validateCheckoutForm(form), [form]);
   const fieldErrors = attemptedSubmit && !validation.valid ? validation.errors : {};
@@ -146,6 +162,8 @@ export function CheckoutForm({ commerce }: CheckoutFormProps) {
     }
     if (!cart || !line) return;
 
+    trackCheckoutEvent('checkout_form_submitted', { phase: 'form' });
+
     setPhase('creating-session');
     try {
       const response = await fetch('/api/checkout/session', {
@@ -170,6 +188,11 @@ export function CheckoutForm({ commerce }: CheckoutFormProps) {
       }
 
       const data = (await response.json()) as { ref: string; checkoutId: string };
+      trackCheckoutEvent('sumup_session_created', {
+        phase: 'creating-session',
+        ref: data.ref,
+        checkoutId: data.checkoutId,
+      });
       setRef(data.ref);
       setCheckoutId(data.checkoutId);
       setPhase('widget');
@@ -181,6 +204,23 @@ export function CheckoutForm({ commerce }: CheckoutFormProps) {
   }
 
   function handleWidgetResponse(type: SumUpResponseType): void {
+    // One event per widget outcome. 'auth-screen' is the pivotal one: if it
+    // never arrives, 3DS never started and the failure is upstream of it.
+    const eventByType: Record<SumUpResponseType, CheckoutEvent> = {
+      sent: 'sumup_payment_sent',
+      'auth-screen': 'sumup_auth_screen',
+      success: 'sumup_success',
+      fail: 'sumup_fail',
+      invalid: 'sumup_error',
+      error: 'sumup_error',
+    };
+    trackCheckoutEvent(eventByType[type] ?? 'sumup_error', {
+      phase,
+      detail: `type=${type}`,
+      ...(ref ? { ref } : {}),
+      ...(checkoutId ? { checkoutId } : {}),
+    });
+
     switch (type) {
       case 'sent':
       case 'auth-screen':
@@ -221,9 +261,30 @@ export function CheckoutForm({ commerce }: CheckoutFormProps) {
           // merchantName is what the buyer reads inside the Google Pay sheet,
           // so it must be the storefront brand, not the legal entity.
           googlePay: { merchantId: GOOGLE_PAY_MERCHANT_ID, merchantName: product.brand },
+          onLoad: () => trackCheckoutEvent('sumup_widget_loaded', { checkoutId, phase: 'widget' }),
+          onPaymentMethodsLoad: (methods) => {
+            // STRICT PASS-THROUGH. Returning an array filters the rendered
+            // methods, so anything other than handing back exactly what SumUp
+            // gave us would change what the buyer can pay with — and this
+            // change is telemetry-only. Returning the argument untouched (or
+            // undefined when SumUp passes nothing) leaves behaviour as it was.
+            trackCheckoutEvent('sumup_payment_methods_loaded', {
+              checkoutId,
+              phase: 'widget',
+              detail: Array.isArray(methods) ? `count=${methods.length}` : `type=${typeof methods}`,
+            });
+            return methods;
+          },
         });
       })
       .catch(() => {
+        // A blocked SDK script is a distinct failure from a widget that
+        // loaded and then misbehaved — worth its own event.
+        trackCheckoutEvent('sumup_error', {
+          phase: 'widget',
+          detail: 'sdk-load-failed',
+          ...(checkoutId ? { checkoutId } : {}),
+        });
         if (!cancelled) setErrorMessage('No pudimos cargar el widget de pago. Recarga la página e intenta de nuevo.');
       });
     return () => {

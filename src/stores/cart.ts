@@ -5,6 +5,7 @@ import { product } from '@/data/product';
 import { $selectedPackId, $selectedVariantId } from '@/stores/checkout';
 import type { PricePack } from '@/types/content';
 import { centsToUnits, trackEvent } from '@/lib/analytics';
+import { trackCheckoutEvent } from '@/lib/telemetry/client';
 
 const KEY = 'astravibe:cartId';
 const DEBOUNCE_MS = 400;
@@ -142,10 +143,16 @@ export function checkout(): void {
   });
 
   if (CHECKOUT_MODE === 'shopify') {
+    trackCheckoutEvent('checkout_navigation_started', { detail: 'mode=shopify-hosted' });
     window.location.assign(cart.checkoutUrl);
     return;
   }
 
+  // Emitted immediately BEFORE the navigation, via sendBeacon: if this event
+  // lands and checkout_page_loaded never does, the browser blocked the hop to
+  // /checkout itself — which is the single most useful thing to know about a
+  // WebView that "does nothing" when the buyer taps the button.
+  trackCheckoutEvent('checkout_navigation_started', { detail: 'mode=onsite' });
   window.location.assign('/checkout');
 }
 
