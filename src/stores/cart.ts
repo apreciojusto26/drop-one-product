@@ -6,6 +6,7 @@ import { $selectedPackId, $selectedVariantId } from '@/stores/checkout';
 import type { PricePack } from '@/types/content';
 import { centsToUnits, trackEvent } from '@/lib/analytics';
 import { trackCheckoutEvent } from '@/lib/telemetry/client';
+import { shouldBlockCheckout } from '@/stores/tiktok-bio';
 
 const KEY = 'astravibe:cartId';
 const DEBOUNCE_MS = 400;
@@ -135,6 +136,12 @@ const CHECKOUT_MODE = import.meta.env.PUBLIC_CHECKOUT_MODE;
 export function checkout(): void {
   const cart = $cart.get();
   if (!cart || !cart.line) return;
+
+  // Single gate for every buy button: BundleSelector, StickyAddToCart and
+  // CartDrawer all funnel through here, so the TikTok bio-link notice is
+  // enforced once rather than repeated at three call sites. Returns before
+  // begin_checkout so a blocked attempt is not counted as one.
+  if (shouldBlockCheckout()) return;
 
   trackEvent('begin_checkout', {
     currency: 'EUR',

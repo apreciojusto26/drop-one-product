@@ -30,6 +30,11 @@ export const CHECKOUT_EVENTS = [
   'sumup_fail',
   'sumup_error',
   'checkout_thankyou_loaded',
+  // TikTok bio-link UX layer. Measures how many see the notice versus how
+  // many hit the checkout gate, so the layer can be judged on numbers.
+  'tiktok_bio_notice_shown',
+  'tiktok_bio_notice_dismissed',
+  'tiktok_bio_checkout_blocked',
 ] as const;
 
 export type CheckoutEvent = (typeof CHECKOUT_EVENTS)[number];

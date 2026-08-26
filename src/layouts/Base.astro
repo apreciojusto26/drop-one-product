@@ -4,6 +4,7 @@ import { getSecret } from 'astro:env/server';
 import { CONSENT_KEY } from '@/lib/consent';
 import { CookieBanner } from '@/components/islands/CookieBanner';
 import { DiagnosticBadge } from '@/components/islands/DiagnosticBadge';
+import { TikTokBioNotice } from '@/components/islands/TikTokBioNotice';
 
 interface Props {
   title: string;
@@ -95,5 +96,7 @@ const consentKey = CONSENT_KEY;
     {/* Renders nothing unless ?diag=1 latched the mode on. In Base so the id
         stays visible across the landing, /checkout and /checkout/gracias. */}
     <DiagnosticBadge client:idle />
+    {/* Renders only for traffic latched as ?source=tiktokbio. */}
+    <TikTokBioNotice client:load />
   </body>
 </html>
