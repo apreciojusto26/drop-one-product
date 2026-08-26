@@ -66,14 +66,18 @@ declare global {
         id: string;
         onResponse: (type: SumUpResponseType, body: unknown) => void;
         googlePay?: { merchantId: string; merchantName: string };
-        /** Fires once the widget itself is ready. Telemetry only. */
-        onLoad?: () => void;
         /**
-         * Fires with the methods SumUp resolved for this checkout. Returning
-         * an array FILTERS what renders, so the handler below is a strict
-         * pass-through — see the comment at the call site.
+         * Fires once the widget itself is ready. Telemetry only — it takes no
+         * return value, so it cannot alter what the widget renders.
+         *
+         * NOTE: SumUp also exposes onPaymentMethodsLoad, which would have made
+         * a `sumup_payment_methods_loaded` event possible. It is deliberately
+         * NOT wired: the value returned from that callback FILTERS the methods
+         * the widget renders, and it is unverified whether returning the
+         * argument untouched (or undefined) is a true no-op. Instrumentation
+         * must not be able to change what buyers can pay with.
          */
-        onPaymentMethodsLoad?: (methods?: unknown) => unknown;
+        onLoad?: () => void;
       }) => SumUpCardInstance;
     };
   }
@@ -262,19 +266,6 @@ export function CheckoutForm({ commerce }: CheckoutFormProps) {
           // so it must be the storefront brand, not the legal entity.
           googlePay: { merchantId: GOOGLE_PAY_MERCHANT_ID, merchantName: product.brand },
           onLoad: () => trackCheckoutEvent('sumup_widget_loaded', { checkoutId, phase: 'widget' }),
-          onPaymentMethodsLoad: (methods) => {
-            // STRICT PASS-THROUGH. Returning an array filters the rendered
-            // methods, so anything other than handing back exactly what SumUp
-            // gave us would change what the buyer can pay with — and this
-            // change is telemetry-only. Returning the argument untouched (or
-            // undefined when SumUp passes nothing) leaves behaviour as it was.
-            trackCheckoutEvent('sumup_payment_methods_loaded', {
-              checkoutId,
-              phase: 'widget',
-              detail: Array.isArray(methods) ? `count=${methods.length}` : `type=${typeof methods}`,
-            });
-            return methods;
-          },
         });
       })
       .catch(() => {

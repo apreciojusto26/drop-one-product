@@ -19,7 +19,11 @@ export const CHECKOUT_EVENTS = [
   'checkout_form_submitted',
   'sumup_session_created',
   'sumup_widget_loaded',
-  'sumup_payment_methods_loaded',
+  // NOTE: no 'sumup_payment_methods_loaded'. SumUp's onPaymentMethodsLoad
+  // callback FILTERS the rendered payment methods by its return value, and it
+  // is unverified whether a pass-through return is a true no-op — so it stays
+  // unwired. Losing one event beats instrumentation that can change what
+  // buyers are able to pay with. See the note in CheckoutForm's mount types.
   'sumup_payment_sent',
   'sumup_auth_screen',
   'sumup_success',
