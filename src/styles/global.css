@@ -48,10 +48,17 @@
   --breakpoint-xs: 22.5rem;
   --animate-marquee: marquee 20s linear infinite;
   --animate-shine: shine 3.5s linear infinite;
+  --animate-point-diagonal: point-diagonal 1.6s ease-in-out infinite;
 }
 
 @keyframes marquee { from { transform: translate3d(0,0,0);} to { transform: translate3d(-50%,0,0);} }
 @keyframes shine { 0% { background-position: 200% center; } 100% { background-position: -200% center; } }
+/* Travels along its own diagonal so the motion reads as "up and to the right",
+   toward the ⋯ menu, rather than as a generic bounce. */
+@keyframes point-diagonal {
+  0%, 100% { transform: translate3d(0, 0, 0); opacity: 0.85; }
+  50%      { transform: translate3d(6px, -6px, 0); opacity: 1; }
+}
 
 @layer base {
   html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }

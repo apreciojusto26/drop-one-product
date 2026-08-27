@@ -68,19 +68,48 @@ export function TikTokBioNotice() {
     else dismissEntryNotice();
   }
 
+  // Anchored near the TOP, not the bottom: the ⋯ the buyer has to reach sits
+  // in the browser chrome above the page, so the card and its arrow belong in
+  // the upper half where the eye can travel between them.
   return (
-    <div className="fixed inset-0 z-[70] flex items-end justify-center bg-graphite/70 p-3 backdrop-blur-sm sm:items-center">
+    <div className="fixed inset-0 z-[70] flex items-start justify-center overflow-y-auto bg-graphite/70 px-3 pb-6 pt-24 backdrop-blur-sm sm:items-center sm:pt-3">
       <div
         role="dialog"
         aria-modal="true"
         aria-labelledby="tiktok-bio-title"
         className="relative w-full max-w-sm rounded-card bg-white p-5 shadow-lift sm:p-6"
       >
-        {/* A hint, never the instruction: the menu sits in different corners
-            across TikTok versions and platforms, so the text below has to
-            stand on its own. aria-hidden for the same reason. */}
-        <div className="pointer-events-none absolute -top-8 right-4 flex flex-col items-center" aria-hidden="true">
-          <span className="motion-safe:animate-bounce text-2xl leading-none">☝️</span>
+        {/*
+          A hint, never the instruction — the menu sits in different corners
+          across versions and platforms, so the text below stands on its own.
+          Hidden on sm+ where there is no in-app chrome to point at, and
+          aria-hidden since it carries no information of its own.
+        */}
+        <div
+          className="pointer-events-none absolute -right-1 -top-16 motion-safe:animate-point-diagonal sm:hidden"
+          aria-hidden="true"
+        >
+          <svg width="72" height="72" viewBox="0 0 72 72" fill="none">
+            {/* Curves up-and-right so the stroke traces the path the eye
+                should follow toward the ⋯ in the chrome above. Dotted round
+                caps read as a drawn-on annotation rather than a UI control. */}
+            <path
+              d="M10 64 C 16 40, 30 22, 54 14"
+              stroke="var(--color-grape)"
+              strokeWidth="4"
+              strokeLinecap="round"
+              strokeDasharray="0.1 10"
+            />
+            {/* Barbs set ±40° off the curve's tangent where it ends, so the
+                head points the same way the line is travelling. */}
+            <path
+              d="M41 9 L 54 14 L 46 26"
+              stroke="var(--color-grape)"
+              strokeWidth="4"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
         </div>
 
         <div className="flex size-11 items-center justify-center rounded-full bg-grape-tint">
