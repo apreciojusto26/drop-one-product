@@ -85,27 +85,44 @@ export function TikTokBioNotice() {
           Hidden on sm+ where there is no in-app chrome to point at, and
           aria-hidden since it carries no information of its own.
         */}
+        {/* -top-24 mirrors the overlay's pt-24, so the tip lands just inside
+            the viewport's top edge instead of being clipped by it. */}
         <div
-          className="pointer-events-none absolute -right-1 -top-16 motion-safe:animate-point-diagonal sm:hidden"
+          className="pointer-events-none absolute -right-3 -top-24 motion-safe:animate-point-diagonal sm:hidden"
           aria-hidden="true"
         >
-          <svg width="72" height="72" viewBox="0 0 72 72" fill="none">
-            {/* Curves up-and-right so the stroke traces the path the eye
-                should follow toward the ⋯ in the chrome above. Dotted round
-                caps read as a drawn-on annotation rather than a UI control. */}
+          {/*
+            Vivid red, not the brand purple: this sits over whatever the page
+            happens to show, blurred and dark, where grape washed out. The
+            palette's green (#15803D) is darker still and would have read even
+            worse there. The drop-shadow is what actually guarantees contrast,
+            since the backdrop changes with the page behind it.
+          */}
+          <svg
+            width="104"
+            height="104"
+            viewBox="0 0 104 104"
+            fill="none"
+            style={{ filter: 'drop-shadow(0 1px 3px rgb(0 0 0 / 0.55))' }}
+          >
+            {/* Rises to the top-right corner. The ⋯ lives in TikTok's own
+                chrome, ABOVE our viewport, so the tip aims at the top edge —
+                reaching the button itself is not possible from inside the
+                page. Dotted round caps read as an annotation drawn over the
+                page rather than as another control. */}
             <path
-              d="M10 64 C 16 40, 30 22, 54 14"
-              stroke="var(--color-grape)"
-              strokeWidth="4"
+              d="M14 92 C 22 58, 42 30, 82 18"
+              stroke="#FF3B30"
+              strokeWidth="5"
               strokeLinecap="round"
-              strokeDasharray="0.1 10"
+              strokeDasharray="0.1 13"
             />
             {/* Barbs set ±40° off the curve's tangent where it ends, so the
                 head points the same way the line is travelling. */}
             <path
-              d="M41 9 L 54 14 L 46 26"
-              stroke="var(--color-grape)"
-              strokeWidth="4"
+              d="M64 10 L 82 18 L 71 35"
+              stroke="#FF3B30"
+              strokeWidth="5"
               strokeLinecap="round"
               strokeLinejoin="round"
             />
