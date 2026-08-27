@@ -1,4 +1,5 @@
 import { atom } from 'nanostores';
+import { isInAppWebView } from '@/lib/telemetry/webview';
 
 /**
  * UX layer for traffic arriving from the TikTok profile/bio link.
@@ -61,6 +62,24 @@ export function isTikTokBioSource(): boolean {
   return readStorage(SOURCE_KEY) === TIKTOK_BIO;
 }
 
+/**
+ * The whole decision, in one place.
+ *
+ * `source` alone is NOT enough. When the buyer follows our own instruction —
+ * ⋯ → "Abrir en navegador" — Safari reopens the SAME url, marker included. If
+ * the notice keyed off the marker alone it would fire again and block the
+ * checkout in Safari, trapping the buyer in a loop created by our own advice.
+ *
+ * So the marker supplies the CONTEXT (this visitor came from the bio link)
+ * and the WebView check supplies the CONDITION (we are still inside an
+ * embedded browser). Both must hold.
+ */
+export function shouldWarn(userAgent?: string | null): boolean {
+  if (typeof window === 'undefined') return false;
+  if (!isTikTokBioSource()) return false;
+  return isInAppWebView(userAgent ?? window.navigator?.userAgent ?? null);
+}
+
 /** The entry notice is a one-time nudge; the checkout gate is not. */
 export function hasDismissedEntryNotice(): boolean {
   return readStorage(ENTRY_DISMISSED_KEY) === '1';
@@ -80,8 +99,8 @@ export function closeNotice(): void {
  * caller must stop: the buyer is on the bio link and has to be told, every
  * time, because continuing here is what breaks.
  */
-export function shouldBlockCheckout(): boolean {
-  if (!isTikTokBioSource()) return false;
+export function shouldBlockCheckout(userAgent?: string | null): boolean {
+  if (!shouldWarn(userAgent)) return false;
   $bioNotice.set('checkout');
   return true;
 }

@@ -24,10 +24,56 @@ export type DetectedBrowser =
 /** Markers TikTok/ByteDance ship in their in-app WebView UA. */
 const TIKTOK_MARKERS = ['tiktok', 'musical_ly', 'bytedancewebview', 'bytedance', 'trill'];
 
+/**
+ * Named TikTok. Android's TikTok shell says so outright; iOS often does NOT —
+ * see isIOSWebView for the case this misses on purpose.
+ */
 export function isTikTokWebView(userAgent: string | null | undefined): boolean {
   if (!userAgent) return false;
   const ua = userAgent.toLowerCase();
   return TIKTOK_MARKERS.some((marker) => ua.includes(marker));
+}
+
+/**
+ * An iOS WKWebView, whoever embeds it.
+ *
+ * Detected by ABSENCE: real iOS browsers always append `Safari/`, and Safari
+ * itself also carries `Version/`. An embedded WKWebView carries neither. The
+ * real string captured from TikTok on iPhone 18.7 is exactly that —
+ *
+ *   Mozilla/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X)
+ *   AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148
+ *
+ * — no Version/, no Safari/, and nothing naming TikTok, which is why a
+ * marker-based check alone reported `unknown` for it.
+ */
+export function isIOSWebView(userAgent: string | null | undefined): boolean {
+  if (!userAgent) return false;
+  const ua = userAgent.toLowerCase();
+  const isIOS = ua.includes('iphone') || ua.includes('ipad') || ua.includes('ipod');
+  return isIOS && !ua.includes('safari/');
+}
+
+/** An Android WebView container (`; wv)` is Chromium's own marker). */
+export function isAndroidWebView(userAgent: string | null | undefined): boolean {
+  if (!userAgent) return false;
+  const ua = userAgent.toLowerCase();
+  return ua.includes('; wv)') || ua.includes('webview');
+}
+
+/**
+ * Any embedded browser. This — not the TikTok markers — is what the UX layer
+ * should ask, because the question that matters is "are we still inside an
+ * in-app browser?", not "which app embedded us?".
+ *
+ * Deliberately broad: a false positive shows a dismissible notice, while a
+ * false negative leaves a buyer facing a checkout that cannot complete.
+ */
+export function isInAppWebView(userAgent: string | null | undefined): boolean {
+  if (!userAgent) return false;
+  const ua = userAgent.toLowerCase();
+  if (isTikTokWebView(ua) || isIOSWebView(ua) || isAndroidWebView(ua)) return true;
+  return ua.includes('instagram') || ua.includes('fban') || ua.includes('fbav') || ua.includes('fb_iab');
 }
 
 /**
@@ -42,12 +88,21 @@ export function detectBrowser(userAgent: string | null | undefined): DetectedBro
   if (isTikTokWebView(ua)) return 'tiktok';
   if (ua.includes('instagram')) return 'instagram';
   if (ua.includes('fban') || ua.includes('fbav') || ua.includes('fb_iab')) return 'facebook';
-  // `wv` is Android's WebView marker; `; wv)` avoids matching stray words.
-  if (ua.includes('; wv)') || ua.includes('webview')) return 'other-webview';
+  if (isAndroidWebView(ua)) return 'other-webview';
+
+  // Real iOS browsers are checked BEFORE the iOS-WebView fallback, since all
+  // of them are WebKit and only the `Safari/` suffix separates them.
+  if (ua.includes('crios')) return 'chrome';
+  if (ua.includes('fxios')) return 'firefox';
+  if (ua.includes('edgios')) return 'edge';
+
+  // Anything left on iOS with no `Safari/` is an embedded WKWebView — the
+  // real TikTok iPhone string lands here rather than in 'unknown'.
+  if (isIOSWebView(ua)) return 'other-webview';
 
   if (ua.includes('edg/')) return 'edge';
-  if (ua.includes('firefox/') || ua.includes('fxios')) return 'firefox';
-  if (ua.includes('chrome/') || ua.includes('crios')) return 'chrome';
+  if (ua.includes('firefox/')) return 'firefox';
+  if (ua.includes('chrome/')) return 'chrome';
   if (ua.includes('safari/')) return 'safari';
 
   return 'unknown';

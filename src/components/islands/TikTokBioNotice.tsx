@@ -6,7 +6,7 @@ import {
   closeNotice,
   dismissEntryNotice,
   hasDismissedEntryNotice,
-  isTikTokBioSource,
+  shouldWarn,
 } from '@/stores/tiktok-bio';
 import { trackCheckoutEvent } from '@/lib/telemetry/client';
 import { ICONS } from '@/lib/icons';
@@ -31,7 +31,10 @@ export function TikTokBioNotice() {
 
   useEffect(() => {
     captureSource();
-    if (isTikTokBioSource() && !hasDismissedEntryNotice()) {
+    // shouldWarn(), not isTikTokBioSource(): Safari reopens the same URL with
+    // the marker still on it when the buyer follows our own instruction, and
+    // showing the notice there would contradict the advice we just gave.
+    if (shouldWarn() && !hasDismissedEntryNotice()) {
       $bioNotice.set('entry');
     }
   }, []);
@@ -73,8 +76,9 @@ export function TikTokBioNotice() {
         aria-labelledby="tiktok-bio-title"
         className="relative w-full max-w-sm rounded-card bg-white p-5 shadow-lift sm:p-6"
       >
-        {/* Points up-right, where TikTok puts its ⋯ menu. aria-hidden: the
-            instruction is in the text, this only aims the eye. */}
+        {/* A hint, never the instruction: the menu sits in different corners
+            across TikTok versions and platforms, so the text below has to
+            stand on its own. aria-hidden for the same reason. */}
         <div className="pointer-events-none absolute -top-8 right-4 flex flex-col items-center" aria-hidden="true">
           <span className="motion-safe:animate-bounce text-2xl leading-none">☝️</span>
         </div>
@@ -97,8 +101,8 @@ export function TikTokBioNotice() {
 
         <div className="mt-4 rounded-tile bg-bone px-4 py-3">
           <p className="text-eyebrow font-bold uppercase tracking-wider text-steel">Cómo hacerlo</p>
-          <p className="mt-1 font-display text-sm font-bold text-graphite">
-            Pulsa <span className="text-grape">⋯</span> arriba y elige{' '}
+          <p className="mt-1 font-display text-sm font-bold leading-snug text-graphite">
+            Pulsa <span className="text-grape">⋯</span> o <span className="text-grape">Compartir</span> y selecciona{' '}
             <span className="text-grape">«Abrir en navegador»</span>
           </p>
         </div>
